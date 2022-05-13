@@ -10,7 +10,7 @@ use dioxus::prelude::*;
 use dioxus_heroicons::{Icon, solid::Shape};
 use mode::is_dark;
 
-use crate::components::navbar::NavBar;
+use crate::components::{navbar::NavBar, modal::PlayBox};
 
 static DARK_MODE: dioxus::fermi::Atom<bool> = |_| {
     let dark = is_dark();
@@ -26,6 +26,7 @@ fn app(cx: Scope) -> Element {
     cx.render(rsx! {
         Router {
             NavBar {}
+            PlayBox {}
             Route { to: "/", pages::discover::Discover {} }
             Route { to: "", pages::error::_404 {} }
             Footer {}
