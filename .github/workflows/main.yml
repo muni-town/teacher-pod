@@ -20,7 +20,7 @@ jobs:
       - run: cargo install --git https://github.com/mrxiaozhuox/studio
 
       - name: Build
-        run: cd ./client && dioxus build --release && copy ./dist/index.html ./dist/404.html
+        run: cd ./client && dioxus build --release && cp ./dist/index.html ./dist/404.html
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.3
