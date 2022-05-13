@@ -14,3 +14,11 @@ pub struct Topic {
     pub name: String,
     pub image: String,
 }
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct SimpleUser {
+    pub id: i32,
+    pub name: String,
+    pub avatar: String,
+    pub email: String,
+}

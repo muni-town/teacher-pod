@@ -2,9 +2,9 @@ use dioxus::prelude::*;
 
 use crate::{
     components::{
-        card::{Card, RecommendList, PopularTopics},
+        card::{Card, RecommendList, PopularTopics}, list::SimpleUserList,
     },
-    data::model::{SimpleArticle, Topic},
+    data::model::{SimpleArticle, Topic, SimpleUser},
 };
 
 pub fn Discover(cx: Scope) -> Element {
@@ -82,7 +82,25 @@ pub fn Discover(cx: Scope) -> Element {
                 }
                 div {
                     class: "col-span-1",
-                    Card {}
+                    Card {
+                        h2 {
+                            class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
+                            "Popular Users"
+                        }
+                        div {
+                            class: "mt-6",
+                            SimpleUserList {
+                                data: vec![
+                                    SimpleUser {
+                                        id: 1000,
+                                        name: "YuKun Liu".into(),
+                                        avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg".into(),
+                                        email: "mrxzx.info@gmail.com".into()
+                                    }
+                                ]
+                            }
+                        }
+                    }
                 }
             }
         }

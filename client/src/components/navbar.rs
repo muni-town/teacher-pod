@@ -57,14 +57,9 @@ pub fn NavBar(cx: Scope) -> Element {
                                     "Discover"
                                 }
                                 Link {
-                                    class: if current_url == "/channel" { current_class } else { default_class },
-                                    to: "/channel",
-                                    "Channel"
-                                }
-                                Link {
-                                    class: if current_url == "/ranking" { current_class } else { default_class },
-                                    to: "/ranking",
-                                    "Ranking"
+                                    class: if current_url == "/topics" { current_class } else { default_class },
+                                    to: "/topics",
+                                    "Topics"
                                 }
                             }
                         }
@@ -97,7 +92,7 @@ pub fn NavBar(cx: Scope) -> Element {
                                     img {
                                         class: "h-8 w-8 rounded-full",
                                         alt: "",
-                                        src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+                                        src: "https://avatars.githubusercontent.com/u/41265098?v=4",
                                     }
                                 }
                             }
@@ -121,7 +116,7 @@ pub fn NavBar(cx: Scope) -> Element {
                     }
                     a {
                         class: "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium",
-                        href: "#","Ranking"
+                        href: "#","Topics"
                     }
                 }
             }
