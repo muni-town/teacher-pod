@@ -13,6 +13,9 @@ pub fn NavBar(cx: Scope) -> Element {
     let default_class = "text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium";
     let current_class = "bg-gray-200 dark:bg-gray-900 text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium";
 
+    let default_mobile_class = "text-black dark:text-white block px-3 py-2 rounded-md text-base font-medium";
+    let current_mobile_class = "bg-gray-200 dark:bg-gray-900 text-black dark:text-white block px-3 py-2 rounded-md text-base font-medium";
+
     let mode_icon = if *use_read(&cx, crate::DARK_MODE) {
         cx.render(rsx! { Icon { icon: Shape::Sun } })
     } else {
@@ -106,12 +109,12 @@ pub fn NavBar(cx: Scope) -> Element {
                 div {
                     class: "px-2 pt-2 pb-3 space-y-1",
                     Link {
-                        class: "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium",
+                        class: if current_url == "/" { current_mobile_class } else { default_mobile_class },
                         to: "/",
                         "Discover"
                     }
                     Link {
-                        class: "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium",
+                        class: if current_url == "/topics" { current_mobile_class } else { default_mobile_class },
                         to: "/topics",
                         "Topics"
                     }

@@ -53,7 +53,7 @@ pub fn Discover(cx: Scope) -> Element {
             div {
                 class: "grid grid-cols-1 md:grid-cols-3 gap-4",
                 div {
-                    class: "col-span-2",
+                    class: "md:col-span-2",
                     Card {
                         h2 {
                             class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
@@ -81,7 +81,7 @@ pub fn Discover(cx: Scope) -> Element {
                     }
                 }
                 div {
-                    class: "col-span-1",
+                    class: "md:col-span-1",
                     Card {
                         h2 {
                             class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
