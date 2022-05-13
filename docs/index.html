@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html class="bg-gray-100">
+<head>
+  <title>TeacherPod | 🎙️</title>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  
+</head>
+<body style="height: 100%;">
+  <div id="main"></div>
+  <script type="module">
+    import init from "./assets/dioxus/teacher-pod.js";
+    init("./assets/dioxus/teacher-pod_bg.wasm").then(wasm => {
+      if (wasm.__wbindgen_start == undefined) {
+        wasm.main();
+      }
+    });
+  </script>
+  <script src="/assets/tailwind.js"></script>
+<script src="/assets/tailwind.config.js"></script>
+
+</body>
+</html>
