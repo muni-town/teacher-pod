@@ -22,7 +22,7 @@ fn app(cx: Scope) -> Element {
     cx.render(rsx! {
         Router {
             Route { to: "/", pages::discover::Discover {} }
-            Route { to: "", h1 { "404 Not Found" } }
+            Route { to: "", pages::error::_404 {} }
         }
     })
 }

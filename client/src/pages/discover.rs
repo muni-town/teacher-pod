@@ -14,7 +14,7 @@ pub fn Discover(cx: Scope) -> Element {
         div {
             class: "container mx-auto",
             Card {
-                h2 {
+                span {
                     class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
                     "Recommend Articles"
                 }
@@ -52,6 +52,22 @@ pub fn Discover(cx: Scope) -> Element {
                 }
             }
             br {}
+            div {
+                class: "grid grid-cols-3 gap-4",
+                div {
+                    class: "col-span-2",
+                    Card {
+                        h2 {
+                            class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
+                            "Popular Topics"
+                        }
+                    }
+                }
+                div {
+                    class: "col-span-1",
+                    Card {}
+                }
+            }
         }
     })
 }
