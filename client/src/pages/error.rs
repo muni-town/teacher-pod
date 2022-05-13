@@ -3,13 +3,13 @@ use dioxus::prelude::*;
 pub fn _404(cx: Scope) -> Element {
     cx.render(rsx! {
         main {
-            class: "h-screen w-full flex flex-col justify-center items-center bg-[#1A2238]",
+            class: "h-180 w-full flex flex-col justify-center items-center",
             h1 {
-                class: "text-9xl font-extrabold text-white tracking-widest",
+                class: "text-9xl font-extrabold text-black dark:text-white tracking-widest",
                 "404"
             }
             div {
-                class: "bg-[#FF6A3D] px-2 text-sm rounded rotate-12 absolute",
+                class: "bg-[#FF6A3D] px-2 text-black dark:text-white text-sm rounded rotate-12 absolute",
                 "Page Not Found"
             }
             button {
@@ -21,7 +21,7 @@ pub fn _404(cx: Scope) -> Element {
                         
                     }
                     span {
-                        class: "relative block px-8 py-3 bg-[#1A2238] border border-current",
+                        class: "relative block px-8 py-3 bg-gray-100 dark:bg-gray-700 border border-current",
                         Link {
                             to: "/",
                             "Home"

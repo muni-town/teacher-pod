@@ -1,9 +1,17 @@
+use std::collections::HashMap;
+
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
 
 use crate::mode::{is_dark, mode};
 
 pub fn NavBar(cx: Scope) -> Element {
+
+    let route = use_route(&cx);
+    let current_url = route.url().path();
+
+    let default_class = "text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium";
+    let current_class = "bg-gray-200 dark:bg-gray-900 text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium";
 
     let mode_icon = if *use_read(&cx, crate::DARK_MODE) {
         cx.render(rsx! { Icon { icon: Shape::Sun } })
@@ -43,18 +51,20 @@ pub fn NavBar(cx: Scope) -> Element {
                             class: "hidden sm:block sm:ml-6",
                             div {
                                 class: "flex space-x-4",
-                                a {
-                                    class: "bg-gray-200 dark:bg-gray-900 text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium",
-                                    "aria-current": "page",
-                                    href: "#","Discover"
+                                Link {
+                                    class: if current_url == "/" { current_class } else { default_class },
+                                    to: "/",
+                                    "Discover"
                                 }
-                                a {
-                                    class: "text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium",
-                                    href: "#","Channel"
+                                Link {
+                                    class: if current_url == "/channel" { current_class } else { default_class },
+                                    to: "/channel",
+                                    "Channel"
                                 }
-                                a {
-                                    class: "text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium",
-                                    href: "#","Ranking"
+                                Link {
+                                    class: if current_url == "/ranking" { current_class } else { default_class },
+                                    to: "/ranking",
+                                    "Ranking"
                                 }
                             }
                         }

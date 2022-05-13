@@ -7,3 +7,10 @@ pub struct SimpleArticle {
     pub author_id: i32,
     pub create_date: i64,
 }
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Topic {
+    pub id: i32,
+    pub name: String,
+    pub image: String,
+}

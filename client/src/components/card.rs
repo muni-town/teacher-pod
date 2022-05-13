@@ -1,7 +1,7 @@
 use chrono::{NaiveDateTime, DateTime, Utc};
 use dioxus::prelude::*;
 
-use crate::data::model::SimpleArticle;
+use crate::data::model::{SimpleArticle, Topic};
 
 #[inline_props]
 pub fn Card<'a>(cx: Scope<'a>, children: Element<'a>) -> Element {
@@ -30,9 +30,9 @@ pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
                 let create_date: DateTime<Utc> = DateTime::from_utc(create_date, Utc);
                 let create_date = create_date.format("%Y-%m-%d");
                 rsx! {
-                    a {
+                    Link {
                         class: "group",
-                        href: "#",
+                        to: "/content/{item.id}",
                         div {
                             class: "w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8",
                             img {
@@ -47,6 +47,33 @@ pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
                         p {
                             class: "text-sm text-gray-500",
                             "{create_date} | YuKun Liu"
+                        }
+                    }
+                }
+            })
+        }
+    })
+}
+
+#[inline_props]
+pub fn PopularTopics(cx: Scope, data: Vec<Topic>) -> Element {
+    cx.render(rsx! {
+        div {
+            class: "mt-6 grid grid-cols-6 gap-x-4 gap-y-1 max-w-2xl",
+            data.iter().map(|item| {
+                rsx! {
+                    div {
+                        class: "col-span-2",
+                        Link {
+                            to: "/topic/{item.id}",
+                            img {
+                                class: "rounded-xl brightness-75",
+                                src: "{item.image}"
+                            }
+                        }
+                        p {
+                            class: "text-xs -translate-y-6 text-white font-semibold sm:-translate-y-8 sm:text-base translate-x-3",
+                            "{item.name}"
                         }
                     }
                 }
