@@ -3,7 +3,6 @@ use dioxus::prelude::*;
 use crate::{
     components::{
         card::{Card, RecommendList, PopularTopics},
-        navbar::NavBar,
     },
     data::model::{SimpleArticle, Topic},
 };
