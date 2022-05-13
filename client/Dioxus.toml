@@ -21,21 +21,20 @@ title = "TeacherPod | 🎙️"
 
 [web.watcher]
 
-watch_path = ["src", "public"]
+watch_path = ["src", "public", "index.html"]
+
+index_on_404 = true
 
 # include `assets` in web platform
 [web.resource]
 
 # CSS style file
-style = [
-    '/assets/app.css',
-]
+style = []
 
 # Javascript code file
 script = [
     '/assets/tailwind.js',
     '/assets/tailwind.config.js',
-    # '/assets/mode.js',
 ]
 
 [web.resource.dev]

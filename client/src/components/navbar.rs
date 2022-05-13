@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
 
-use crate::{mode::{is_dark, mode}, hooks::use_storage};
+use crate::mode::{is_dark, mode};
 
 pub fn NavBar(cx: Scope) -> Element {
 
@@ -36,7 +36,7 @@ pub fn NavBar(cx: Scope) -> Element {
                             img {
                                 class: "block h-8 w-auto",
                                 alt: "Workflow",
-                                src: "https://avatars.githubusercontent.com/u/82148688?s=200&v=4",
+                                src: "./assets/image/logo.png",
                             }
                         }
                         div {
@@ -54,13 +54,17 @@ pub fn NavBar(cx: Scope) -> Element {
                                 }
                                 a {
                                     class: "text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium",
-                                    href: "#","Projects"
+                                    href: "#","Ranking"
                                 }
                             }
                         }
                     }
                     div {
                         class: "absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0",
+                        div {
+                            class: "pr-6",
+                            crate::components::form::SearchBox {}
+                        }
                         button {
                             class: "bg-white dark:bg-gray-800 p-1 rounded-full text-gray-400 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black",
                             r#type: "button",
@@ -107,10 +111,11 @@ pub fn NavBar(cx: Scope) -> Element {
                     }
                     a {
                         class: "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium",
-                        href: "#","Projects"
+                        href: "#","Ranking"
                     }
                 }
             }
         }
+        br {}
     })
 }

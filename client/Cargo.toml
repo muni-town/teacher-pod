@@ -10,7 +10,9 @@ edition = "2021"
 web-sys = { version = "0.3.57", features = ["Storage"] }
 js-sys = "0.3.57"
 
-dioxus = { version = "0.2.4", features = ["web", "fermi"] }
+dioxus = { version = "0.2.4", features = ["web", "fermi", "router"] }
 dioxus-heroicons = "0.1.4"
 
 anyhow = "1.0.57"
+
+chrono = "0.4"

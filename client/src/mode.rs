@@ -25,7 +25,11 @@ pub fn mode(dark: bool) {
     let _ = storage.set_item("mode", if dark { "dark" } else { "light" });
     if dark {
         let _ = js_sys::eval("document.documentElement.classList.add('dark');");
+        let _ = js_sys::eval("document.documentElement.classList.remove('bg-gray-100');");
+        let _ = js_sys::eval("document.documentElement.classList.add('bg-gray-600');");
     } else {
         let _ = js_sys::eval("document.documentElement.classList.remove('dark');");
+        let _ = js_sys::eval("document.documentElement.classList.add('bg-gray-100');");
+        let _ = js_sys::eval("document.documentElement.classList.remove('bg-gray-600');");
     }
 }
