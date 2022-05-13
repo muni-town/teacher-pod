@@ -51,7 +51,7 @@ pub fn Discover(cx: Scope) -> Element {
             }
             br {}
             div {
-                class: "grid grid-cols-3 gap-4",
+                class: "grid grid-cols-1 md:grid-cols-3 gap-4",
                 div {
                     class: "col-span-2",
                     Card {
@@ -88,7 +88,7 @@ pub fn Discover(cx: Scope) -> Element {
                             "Popular Users"
                         }
                         div {
-                            class: "mt-6",
+                            class: "mt-5",
                             SimpleUserList {
                                 data: vec![
                                     SimpleUser {

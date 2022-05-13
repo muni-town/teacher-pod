@@ -67,7 +67,7 @@ pub fn NavBar(cx: Scope) -> Element {
                     div {
                         class: "absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0",
                         div {
-                            class: "pr-6",
+                            class: "pr-6 hidden sm:block",
                             crate::components::form::SearchBox {}
                         }
                         button {
@@ -105,18 +105,15 @@ pub fn NavBar(cx: Scope) -> Element {
                 id: "mobile-menu",
                 div {
                     class: "px-2 pt-2 pb-3 space-y-1",
-                    a {
+                    Link {
                         class: "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium",
-                        "aria-current": "page",
-                        href: "#","Discover"
+                        to: "/",
+                        "Discover"
                     }
-                    a {
+                    Link {
                         class: "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium",
-                        href: "#","Channel"
-                    }
-                    a {
-                        class: "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium",
-                        href: "#","Topics"
+                        to: "/topics",
+                        "Topics"
                     }
                 }
             }
