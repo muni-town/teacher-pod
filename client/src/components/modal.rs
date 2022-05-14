@@ -4,7 +4,7 @@ use dioxus_heroicons::{Icon, solid::Shape};
 pub fn PlayBox(cx: Scope) -> Element {
     cx.render(rsx! {
         div {
-            class: "hidden sm:block fixed bottom-0 left-0 w-1/4 h-20 rounded
+            class: "hidden sm:block fixed bottom-8 left-0 w-1/4 h-20 rounded
             bg-white dark:bg-black shadow-2xl
             px-2 py-2 z-40
             ",
@@ -22,7 +22,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                     div {
                         span {
                             class: "text-black dark:text-white",
-                            "66. 知网到底垄断了什么"
+                            "66. About Us - TeacherPod"
                         }
                         span {
                             class: "absolute right-0",

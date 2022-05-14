@@ -1,11 +1,20 @@
-use std::collections::HashMap;
-
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
 
-use crate::mode::{is_dark, mode};
+use crate::{mode::{is_dark, mode}, data::account::is_login};
 
 pub fn NavBar(cx: Scope) -> Element {
+
+    let login_button = rsx! {
+        div {
+            class: "ml-5 relative",
+            Link {
+                class: "bg-white dark:bg-gray-800 dark:text-white p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-900",
+                to: "/login",
+                "Sign In"
+            }
+        }
+    };
 
     let route = use_route(&cx);
     let current_url = route.url().path();
@@ -15,6 +24,33 @@ pub fn NavBar(cx: Scope) -> Element {
 
     let default_mobile_class = "text-black dark:text-white block px-3 py-2 rounded-md text-base font-medium";
     let current_mobile_class = "bg-gray-200 dark:bg-gray-900 text-black dark:text-white block px-3 py-2 rounded-md text-base font-medium";
+
+    let user_center = use_future(&cx, (), |_| async move {
+        is_login().await
+    });
+    let user_center = match user_center.value() {
+        Some(true) => rsx! {
+            div {
+                class: "ml-3 relative",
+                div {
+                    button {
+                        class: "bg-white dark:bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white",
+                        id: "user-menu-button",
+                        "aria-expanded": "false",
+                        "aria-haspopup": "true",
+                        r#type: "button",
+                        img {
+                            class: "h-8 w-8 rounded-full",
+                            alt: "",
+                            src: "https://avatars.githubusercontent.com/u/41265098?v=4",
+                        }
+                    }
+                }
+            }
+        },
+        Some(false) => login_button,
+        None => login_button,
+    };
 
     let mode_icon = if *use_read(&cx, crate::DARK_MODE) {
         cx.render(rsx! { Icon { icon: Shape::Sun } })
@@ -83,23 +119,7 @@ pub fn NavBar(cx: Scope) -> Element {
                             },
                             mode_icon
                         }
-                        div {
-                            class: "ml-3 relative",
-                            div {
-                                button {
-                                    class: "bg-white dark:bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white",
-                                    id: "user-menu-button",
-                                    "aria-expanded": "false",
-                                    "aria-haspopup": "true",
-                                    r#type: "button",
-                                    img {
-                                        class: "h-8 w-8 rounded-full",
-                                        alt: "",
-                                        src: "https://avatars.githubusercontent.com/u/41265098?v=4",
-                                    }
-                                }
-                            }
-                        }
+                        user_center,
                     }
                 }
             }

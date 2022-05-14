@@ -6,6 +6,7 @@ mod pages;
 mod mode;
 mod data;
 
+use data::account::is_login;
 use dioxus::prelude::*;
 use dioxus_heroicons::{Icon, solid::Shape};
 use mode::is_dark;
@@ -28,6 +29,7 @@ fn app(cx: Scope) -> Element {
             NavBar {}
             PlayBox {}
             Route { to: "/", pages::discover::Discover {} }
+            Route { to: "/login", pages::login::Login {} }
             Route { to: "", pages::error::_404 {} }
             Footer {}
         }

@@ -20,28 +20,28 @@ pub fn Discover(cx: Scope) -> Element {
                     data: vec![
                         SimpleArticle { 
                             id: 1000, 
-                            title: "66. 知网到底垄断了什么".to_string(), 
+                            title: "About Us - TeacherPod".to_string(), 
                             image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             author_id: 0, 
                             create_date: 1652418229,
                         },
                         SimpleArticle { 
                             id: 1001, 
-                            title: "66. 知网到底垄断了什么".to_string(), 
+                            title: "About Us - TeacherPod".to_string(), 
                             image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             author_id: 0, 
                             create_date: 1652418229,
                         },
                         SimpleArticle { 
                             id: 1002, 
-                            title: "66. 知网到底垄断了什么".to_string(), 
+                            title: "About Us - TeacherPod".to_string(), 
                             image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             author_id: 0, 
                             create_date: 1652418229,
                         },
                         SimpleArticle { 
                             id: 1003, 
-                            title: "66. 知网到底垄断了什么".to_string(), 
+                            title: "About Us - TeacherPod".to_string(), 
                             image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             author_id: 0, 
                             create_date: 1652418229,
