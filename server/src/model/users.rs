@@ -10,8 +10,8 @@ pub struct User {
     pub nickname: String,
     pub gender: String,
     pub email: String,
-    pub reg_date: i64,
-    pub recently: i64,
+    pub reg_date: sqlx::types::chrono::NaiveDate,
+    pub recently: sqlx::types::chrono::NaiveDate,
     pub password: String,
     pub salt: String,
     pub introduction: String,
@@ -25,16 +25,16 @@ impl User {
         ($1, $2, $3, $4, $5, $6);
     ";
 
-    pub const SELECT_USER_FROM_ID: &'static str = "select * from users where id = ?;";
-    pub const SELECT_USER_FROM_EMAIL: &'static str = "select * from users where email = ?;";
-    pub const SELECT_USER_FROM_USERNAME: &'static str = "select * from users where username = ?;";
+    pub const SELECT_USER_FROM_ID: &'static str = "select * from users where id = $1;";
+    pub const SELECT_USER_FROM_EMAIL: &'static str = "select * from users where email = $1;";
+    pub const SELECT_USER_FROM_USERNAME: &'static str = "select * from users where username = $1;";
 
     pub fn generate_password(pwd: String) -> (String, String) {
         let salt: String = repeat_with(fastrand::alphanumeric).take(12).collect();
         let digest = md5::compute(format!("@{salt}${pwd}").as_bytes());
         (format!("{:x}", digest), salt)
     }
-    pub fn check_password(input: String, pwd: String, salt: String) -> bool {
+    pub fn check_password(input: &str, pwd: &str, salt: &str) -> bool {
         let digest = md5::compute(format!("@{salt}${input}").as_bytes());
         pwd == format!("{:x}", digest)
     }

@@ -1,5 +1,5 @@
 use axum::{
-    extract::{Form, Path, Query},
+    extract::{Form, Query},
     http::StatusCode,
     response::Json,
     Extension,
@@ -78,7 +78,14 @@ pub async fn login(
         .bind(query.email.clone())
         .fetch_one(&pool)
         .await?;
-    session.set("user-id", user.id).await;
-    session.set("user-info", user).await;
-    Ok(Json(OperResult::ok()))
+
+    if User::check_password(&query.password, &user.password, &user.salt) {
+        session.set("user-id", user.id).await;
+        session.set("user-info", user).await;
+        return Ok(Json(OperResult::ok()));
+    }
+    return Err(AppError::Custom((
+        StatusCode::BAD_REQUEST,
+        "user password check failed".into(),
+    )));
 }

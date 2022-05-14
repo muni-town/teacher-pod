@@ -5,7 +5,8 @@ use crate::api::OperResult;
 pub enum AppError {
     MissingParams(String),
     AccessDenied,
-    Sqlx(sqlx::Error)    
+    Sqlx(sqlx::Error),
+    Custom((StatusCode, String))  
 }
 
 impl From<sqlx::Error> for AppError {
@@ -27,6 +28,7 @@ impl IntoResponse for AppError {
             AppError::Sqlx(e) => {
                 (StatusCode::INTERNAL_SERVER_ERROR, e.to_string())
             },
+            AppError::Custom(v) => v,
         };
         Json(OperResult::err(status, &error_message)).into_response()
     }
