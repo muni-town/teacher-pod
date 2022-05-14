@@ -29,7 +29,10 @@ fn app(cx: Scope) -> Element {
             NavBar {}
             PlayBox {}
             Route { to: "/", pages::discover::Discover {} }
+
             Route { to: "/login", pages::login::Login {} }
+            Route { to: "/register", pages::login::Register {} }
+
             Route { to: "", pages::error::_404 {} }
             Footer {}
         }
