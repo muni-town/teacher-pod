@@ -1,16 +1,15 @@
-create table if not exists user (
+create table if not exists users (
     id              bigserial       not null    primary key,
-    username        varchar(255)    not null    unique,
-    nickname        varchar(255)    not null,
+    email           varchar(255)    default ''  unique,
+    username        varchar(255)    not null,
     gender          varchar(10)     default 'unknown',
-    email           varchar(255)    default '',
     reg_date        date            default current_date,
     recently        date            default current_date,
     password        varchar(255)    not null,
     salt            varchar(20)     not null,
     introduction    text            default '',
     avatar          varchar(255)    default '',
-    role            int             default 0,
+    role            int             default 0
 );
 
 create table if not exists topics (

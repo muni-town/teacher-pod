@@ -20,14 +20,10 @@ pub async fn self_info(
     Extension(pool): Extension<PgPool>,
 ) -> Result<Json<SimpleUser>, AppError> {
     if let Some(current_user_id) = session.get::<i64>("user-id").await {
-        let user = sqlx::query_as::<_, SimpleUser>(
-            "select 
-            id, username, nickname, gender, email, reg_date, introduction, avatar 
-            from users where id = $1",
-        )
-        .bind(current_user_id)
-        .fetch_one(&pool)
-        .await?;
+        let user = sqlx::query_as::<_, SimpleUser>(SimpleUser::SELECT_FROM_ID)
+            .bind(current_user_id)
+            .fetch_one(&pool)
+            .await?;
         Ok(Json(user))
     } else {
         Err(AppError::AccessDenied)
@@ -47,12 +43,10 @@ pub async fn register(
 ) -> Result<Json<OperResult>, AppError> {
     let (password, salt) = User::generate_password(info.password);
 
-    let nickname = info.username.clone();
     let user_role = 1;
 
     sqlx::query(User::INSERT_USER)
         .bind(info.username)
-        .bind(nickname)
         .bind(info.email)
         .bind(password)
         .bind(salt)
@@ -74,7 +68,7 @@ pub async fn login(
     session: AxumSession,
     Extension(pool): Extension<PgPool>,
 ) -> Result<Json<OperResult>, AppError> {
-    let user = sqlx::query_as::<_, User>(User::SELECT_USER_FROM_EMAIL)
+    let user = sqlx::query_as::<_, User>(User::SELECT_FROM_EMAIL)
         .bind(query.email.clone())
         .fetch_one(&pool)
         .await?;

@@ -2,6 +2,7 @@ use axum::{response::IntoResponse, http::StatusCode, response::Json};
 
 use crate::api::OperResult;
 
+#[allow(dead_code)]
 pub enum AppError {
     MissingParams(String),
     AccessDenied,
