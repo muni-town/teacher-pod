@@ -1,13 +1,14 @@
 mod api;
-mod model;
 mod error;
+mod model;
 
-use api::user::*;
+use api::*;
 
 use axum::{
     routing::{get, post},
     Extension, Router,
 };
+use axum_database_sessions::{AxumSessionConfig, AxumSessionLayer, AxumSessionStore};
 use sqlx::postgres::PgPoolOptions;
 use std::{net::SocketAddr, time::Duration};
 
@@ -22,14 +23,19 @@ async fn main() {
         .connect(&db_connection_str)
         .await
         .expect("can connect to database");
+    let session = AxumSessionStore::new(
+        Some(pool.clone().into()),
+        AxumSessionConfig::default().with_table_name("sessions"),
+    );
+    session.migrate().await.unwrap();
 
     let app = Router::new()
-        .route(
-            "/user",
-            get(get_user)
-        )
+        .route("/login", get(account::login))
+        .route("/register", post(account::register))
+        .route("/self", get(account::self_info))
+        .route("/users/:id", get(users::get_user))
         .layer(Extension(pool))
-    ;
+        .layer(AxumSessionLayer::new(session));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     axum::Server::bind(&addr)
