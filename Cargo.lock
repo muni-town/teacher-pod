@@ -269,11 +269,13 @@ version = "0.4.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73"
 dependencies = [
+ "js-sys",
  "libc",
  "num-integer",
  "num-traits",
  "serde",
  "time 0.1.44",
+ "wasm-bindgen",
  "winapi",
 ]
 
@@ -285,6 +287,7 @@ dependencies = [
  "chrono",
  "dioxus",
  "dioxus-heroicons",
+ "dioxus-toast",
  "gloo",
  "js-sys",
  "log",
@@ -495,6 +498,17 @@ dependencies = [
  "url",
  "wasm-bindgen",
  "web-sys",
+]
+
+[[package]]
+name = "dioxus-toast"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c373dfc83f49382a959efc3984b23450931f4a6f10a857c952981b664a38f0c2"
+dependencies = [
+ "chrono",
+ "dioxus",
+ "gloo-timers",
 ]
 
 [[package]]

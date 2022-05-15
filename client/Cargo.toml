@@ -14,6 +14,7 @@ gloo = "0.7.0"
 log = "0.4.6"
 wasm-logger = "0.2.0"
 dioxus-heroicons = "0.1.4"
+dioxus-toast = { version = "0.1.5", default-features = false, features = ["web"] }
 anyhow = "1.0.57"
 chrono = "0.4"
 url = "2.2.2"

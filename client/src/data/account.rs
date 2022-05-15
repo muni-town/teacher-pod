@@ -1,4 +1,4 @@
-use super::{request::get, model::OperResult};
+use super::request::get;
 
 pub async fn is_login() -> bool {
     let resp = get("/self").send().await;

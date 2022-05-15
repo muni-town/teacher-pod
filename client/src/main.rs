@@ -10,6 +10,7 @@ use data::model::PlayerBoxStatus;
 use dioxus::prelude::*;
 use dioxus_heroicons::{Icon, solid::Shape};
 use mode::is_dark;
+use dioxus_toast::{ToastFrame, ToastManager};
 
 use crate::components::{navbar::NavBar, modal::PlayBox};
 
@@ -26,6 +27,8 @@ static PLAYER_STATUS: dioxus::fermi::AtomRef<PlayerBoxStatus> = |_| {
     }
 };
 
+static TOAST_MANAGER: dioxus::fermi::AtomRef<ToastManager> = |_| ToastManager::default();
+
 fn main() {
     wasm_logger::init(wasm_logger::Config::default());
 
@@ -35,7 +38,14 @@ fn main() {
 }
 
 fn app(cx: Scope) -> Element {
+
+    let toast = use_atom_ref(&cx, TOAST_MANAGER);
+
     cx.render(rsx! {
+        ToastFrame {
+            manager: toast,
+            maximum: 8,
+        }
         Router {
             NavBar {}
             PlayBox {}

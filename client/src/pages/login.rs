@@ -1,8 +1,12 @@
 use dioxus::prelude::*;
+use dioxus_toast::ToastInfo;
 
-use crate::data::account::login;
+use crate::{data::account::login, TOAST_MANAGER};
 
 pub fn Login(cx: Scope) -> Element {
+
+    let toast = use_atom_ref(&cx, TOAST_MANAGER);
+
     cx.render(rsx! {
         div {
             class: "justify-center",
@@ -40,8 +44,19 @@ pub fn Login(cx: Scope) -> Element {
                                     login("mrxzx@qq.com", "123456").await
                                 });
                                 match res.value() {
-                                    Some(Ok(_)) => { log::info!("OK") },
-                                    Some(Err(e)) => { log::error!("{e:?}") }
+                                    Some(Ok(_)) => { 
+
+                                    },
+                                    Some(Err(e)) => {
+                                        toast.write().popup(ToastInfo { 
+                                            heading: None, 
+                                            context: e.to_string(), 
+                                            allow_toast_close: true, 
+                                            position: dioxus_toast::Position::BottomRight, 
+                                            icon: Some(dioxus_toast::Icon::Error), 
+                                            hide_after: Some(4),
+                                        });
+                                    }
                                     None => {},
                                 }
                             },
