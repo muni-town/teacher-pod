@@ -31,6 +31,6 @@ impl IntoResponse for AppError {
             },
             AppError::Custom(v) => v,
         };
-        Json(OperResult::err(status, &error_message)).into_response()
+        (status, Json(OperResult::err(status, &error_message))).into_response()
     }
 }

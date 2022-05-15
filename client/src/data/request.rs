@@ -1,13 +1,9 @@
-use reqwasm::http::{Request, Response};
+use gloo::net::http::Request;
 use url::Url;
 
 const SERVER: &'static str = "http://localhost:3000/";
 
-pub async fn get(url: &str) -> anyhow::Result<Response> {
-    let resp = Request::get(
-        &Url::parse(SERVER)?.join(url)?.to_string()
-    )
-        .send()
-        .await?;
-    Ok(resp)
+pub fn get(url: &str) -> Request {
+    let url = &Url::parse(SERVER).unwrap().join(url).unwrap().to_string();
+    Request::get(url)
 }

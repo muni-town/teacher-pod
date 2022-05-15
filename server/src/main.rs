@@ -10,6 +10,7 @@ use axum::{
 };
 use axum_database_sessions::{AxumSessionConfig, AxumSessionLayer, AxumSessionStore};
 use sqlx::postgres::PgPoolOptions;
+use tower_http::cors::{CorsLayer, Any};
 use std::{net::SocketAddr, time::Duration};
 
 #[tokio::main]
@@ -35,7 +36,8 @@ async fn main() {
         .route("/self", get(account::self_info))
         .route("/users/:id", get(users::get_user))
         .layer(Extension(pool))
-        .layer(AxumSessionLayer::new(session));
+        .layer(AxumSessionLayer::new(session))
+        .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     axum::Server::bind(&addr)

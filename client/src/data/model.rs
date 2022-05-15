@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 /// this struct use for display a item on home page.
 #[derive(Debug, Clone, PartialEq)]
 pub struct SimpleArticle {
@@ -27,4 +29,10 @@ pub struct SimpleUser {
 pub struct PlayerBoxStatus {
     pub display: bool,
     pub pause: bool,
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+pub struct OperResult {
+    pub status: String,
+    pub message: String
 }
