@@ -22,3 +22,9 @@ pub struct SimpleUser {
     pub avatar: String,
     pub email: String,
 }
+
+#[derive(Clone, PartialEq)]
+pub struct PlayerBoxStatus {
+    pub display: bool,
+    pub pause: bool,
+}

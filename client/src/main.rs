@@ -6,7 +6,7 @@ mod pages;
 mod mode;
 mod data;
 
-use data::account::is_login;
+use data::model::PlayerBoxStatus;
 use dioxus::prelude::*;
 use dioxus_heroicons::{Icon, solid::Shape};
 use mode::is_dark;
@@ -19,7 +19,18 @@ static DARK_MODE: dioxus::fermi::Atom<bool> = |_| {
     dark
 };
 
+static PLAYER_STATUS: dioxus::fermi::AtomRef<PlayerBoxStatus> = |_| { 
+    PlayerBoxStatus {
+        display: true,
+        pause: true,
+    }
+};
+
 fn main() {
+    wasm_logger::init(wasm_logger::Config::default());
+
+    log::info!("TeacherPod Init");
+
     dioxus::web::launch(app);
 }
 
