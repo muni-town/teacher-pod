@@ -41,13 +41,13 @@ impl User {
 
 #[derive(FromRow, Serialize, Deserialize)]
 pub struct SimpleUser {
-    id: i64,
-    username: String,
-    gender: String,
-    email: String,
-    reg_date: sqlx::types::chrono::NaiveDate,
-    introduction: String,
-    avatar: String,
+    pub id: i64,
+    pub username: String,
+    pub gender: String,
+    pub email: String,
+    pub reg_date: sqlx::types::chrono::NaiveDate,
+    pub introduction: String,
+    pub avatar: String,
 }
 
 #[allow(dead_code)]

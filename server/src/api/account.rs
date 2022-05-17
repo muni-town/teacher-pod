@@ -17,14 +17,17 @@ use super::OperResult;
 
 pub async fn self_info(
     session: AxumSession,
-    Extension(pool): Extension<PgPool>,
 ) -> Result<Json<SimpleUser>, AppError> {
-    if let Some(current_user_id) = session.get::<i64>("user-id").await {
-        let user = sqlx::query_as::<_, SimpleUser>(SimpleUser::SELECT_FROM_ID)
-            .bind(current_user_id)
-            .fetch_one(&pool)
-            .await?;
-        Ok(Json(user))
+    if let Some(current_user) = session.get::<User>("user-info").await {
+        Ok(Json(SimpleUser {
+            id: current_user.id,
+            username: current_user.username,
+            gender: current_user.gender,
+            email: current_user.email,
+            reg_date: current_user.reg_date,
+            introduction: current_user.introduction,
+            avatar: current_user.avatar,
+        }))
     } else {
         Err(AppError::AccessDenied)
     }
@@ -71,10 +74,10 @@ pub async fn login(
     let user = sqlx::query_as::<_, User>(User::SELECT_FROM_EMAIL)
         .bind(query.email.clone())
         .fetch_one(&pool)
-        .await?;
+        .await;
+    let user = user?;
 
     if User::check_password(&query.password, &user.password, &user.salt) {
-        session.set("user-id", user.id).await;
         session.set("user-info", user).await;
         return Ok(Json(OperResult::ok()));
     }

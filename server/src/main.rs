@@ -10,8 +10,8 @@ use axum::{
 };
 use axum_database_sessions::{AxumSessionConfig, AxumSessionLayer, AxumSessionStore};
 use sqlx::postgres::PgPoolOptions;
-use tower_http::cors::{CorsLayer, Any};
 use std::{net::SocketAddr, time::Duration};
+use tower_http::cors::{Any, CorsLayer};
 
 #[tokio::main]
 async fn main() {
@@ -26,7 +26,11 @@ async fn main() {
         .expect("can connect to database");
     let session = AxumSessionStore::new(
         Some(pool.clone().into()),
-        AxumSessionConfig::default().with_table_name("sessions"),
+        AxumSessionConfig::default()
+            .with_table_name("sessions")
+            .with_cookie_name("session-id")
+            .with_cookie_domain(Some("127.0.0.1".to_string()))
+            .with_max_age(Some(chrono::Duration::days(100))),
     );
     session.migrate().await.unwrap();
 
