@@ -17,5 +17,8 @@ pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {
             }
         ));
     }
+
+    let sessions = resp.headers().get("get-session");
+
     return Ok(());
 }

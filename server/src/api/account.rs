@@ -4,7 +4,6 @@ use axum::{
     response::Json,
     Extension,
 };
-use axum_database_sessions::AxumSession;
 use serde::Deserialize;
 use sqlx::PgPool;
 
@@ -15,22 +14,21 @@ use crate::{
 
 use super::OperResult;
 
-pub async fn self_info(
-    session: AxumSession,
-) -> Result<Json<SimpleUser>, AppError> {
-    if let Some(current_user) = session.get::<User>("user-info").await {
-        Ok(Json(SimpleUser {
-            id: current_user.id,
-            username: current_user.username,
-            gender: current_user.gender,
-            email: current_user.email,
-            reg_date: current_user.reg_date,
-            introduction: current_user.introduction,
-            avatar: current_user.avatar,
-        }))
-    } else {
-        Err(AppError::AccessDenied)
-    }
+pub async fn self_info() -> Result<Json<SimpleUser>, AppError> {
+    todo!()
+    // if let Some(current_user) = session.get::<User>("user-info").await {
+    //     Ok(Json(SimpleUser {
+    //         id: current_user.id,
+    //         username: current_user.username,
+    //         gender: current_user.gender,
+    //         email: current_user.email,
+    //         reg_date: current_user.reg_date,
+    //         introduction: current_user.introduction,
+    //         avatar: current_user.avatar,
+    //     }))
+    // } else {
+    //     Err(AppError::AccessDenied)
+    // }
 }
 
 #[derive(Deserialize, Debug)]
@@ -68,7 +66,6 @@ pub struct UserLoginQuery {
 
 pub async fn login(
     query: Query<UserLoginQuery>,
-    session: AxumSession,
     Extension(pool): Extension<PgPool>,
 ) -> Result<Json<OperResult>, AppError> {
     let user = sqlx::query_as::<_, User>(User::SELECT_FROM_EMAIL)
@@ -78,8 +75,9 @@ pub async fn login(
     let user = user?;
 
     if User::check_password(&query.password, &user.password, &user.salt) {
-        session.set("user-info", user).await;
-        return Ok(Json(OperResult::ok()));
+        todo!()
+        // session.set("user-info", user).await;
+        // return Ok(Json(OperResult::ok()));
     }
     return Err(AppError::Custom((
         StatusCode::BAD_REQUEST,

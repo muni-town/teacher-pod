@@ -1,4 +1,5 @@
 mod api;
+mod auth;
 mod error;
 mod model;
 
@@ -8,7 +9,6 @@ use axum::{
     routing::{get, post},
     Extension, Router,
 };
-use axum_database_sessions::{AxumSessionConfig, AxumSessionLayer, AxumSessionStore};
 use sqlx::postgres::PgPoolOptions;
 use std::{net::SocketAddr, time::Duration};
 use tower_http::cors::{Any, CorsLayer};
@@ -24,15 +24,6 @@ async fn main() {
         .connect(&db_connection_str)
         .await
         .expect("can connect to database");
-    let session = AxumSessionStore::new(
-        Some(pool.clone().into()),
-        AxumSessionConfig::default()
-            .with_table_name("sessions")
-            .with_cookie_name("session-id")
-            .with_cookie_domain(Some("127.0.0.1".to_string()))
-            .with_max_age(Some(chrono::Duration::days(100))),
-    );
-    session.migrate().await.unwrap();
 
     let app = Router::new()
         .route("/login", get(account::login))
@@ -40,7 +31,6 @@ async fn main() {
         .route("/self", get(account::self_info))
         .route("/users/:id", get(users::get_user))
         .layer(Extension(pool))
-        .layer(AxumSessionLayer::new(session))
         .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));

@@ -1,3 +1,9 @@
+create table if not exists auth (
+    id      varchar(128)    not null   primary key,
+    user    int             not null,
+    expire  int             not null
+);
+
 create table if not exists users (
     id              bigserial       not null    primary key,
     email           varchar(255)    default ''  unique,
@@ -12,6 +18,9 @@ create table if not exists users (
     role            int             default 0
 );
 
+-- test data
+insert into users (email, username, password, salt) values ('mrxzx@qq.com', 'mrxiaozhuox', '22b48f7a98d9a8d684c7000dde01ef6e', 'ccIvwLYPegqy');
+
 create table if not exists topics (
     id      bigserial       not null    primary key,
     name    varchar(255)    not null,
@@ -25,10 +34,11 @@ insert into topics (name, image) values ('History', 'https://picsum.photos/seed/
 
 create table if not exists contents (
     id              bigserial       not null    primary key,
+    type            int             default 0,
     title           varchar(60)     not null,
     source          varchar(255)    not null,
     author          int             not null,
     topic           int             not null,
     description     text            default '',
-    up_date         date            default current_date,
+    up_date         date            default current_date
 );
