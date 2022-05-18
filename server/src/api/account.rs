@@ -1,3 +1,5 @@
+use std::iter::repeat_with;
+
 use axum::{
     extract::{Form, Query},
     http::StatusCode,
@@ -8,27 +10,26 @@ use serde::Deserialize;
 use sqlx::PgPool;
 
 use crate::{
+    auth::{self, AuthClaims},
     error::AppError,
-    model::users::{SimpleUser, User},
+    model::{
+        auth::Auth as AuthModal,
+        users::{SimpleUser, User},
+    },
 };
 
 use super::OperResult;
 
-pub async fn self_info() -> Result<Json<SimpleUser>, AppError> {
-    todo!()
-    // if let Some(current_user) = session.get::<User>("user-info").await {
-    //     Ok(Json(SimpleUser {
-    //         id: current_user.id,
-    //         username: current_user.username,
-    //         gender: current_user.gender,
-    //         email: current_user.email,
-    //         reg_date: current_user.reg_date,
-    //         introduction: current_user.introduction,
-    //         avatar: current_user.avatar,
-    //     }))
-    // } else {
-    //     Err(AppError::AccessDenied)
-    // }
+pub async fn self_info(
+    claims: AuthClaims,
+    Extension(pool): Extension<PgPool>,
+) -> Result<Json<SimpleUser>, AppError> {
+    let user_id = claims.user;
+    let r = sqlx::query_as::<_, SimpleUser>(SimpleUser::SELECT_FROM_ID)
+        .bind(user_id)
+        .fetch_one(&pool)
+        .await?;
+    Ok(Json(r))
 }
 
 #[derive(Deserialize, Debug)]
@@ -67,7 +68,7 @@ pub struct UserLoginQuery {
 pub async fn login(
     query: Query<UserLoginQuery>,
     Extension(pool): Extension<PgPool>,
-) -> Result<Json<OperResult>, AppError> {
+) -> Result<Json<serde_json::Value>, AppError> {
     let user = sqlx::query_as::<_, User>(User::SELECT_FROM_EMAIL)
         .bind(query.email.clone())
         .fetch_one(&pool)
@@ -75,9 +76,25 @@ pub async fn login(
     let user = user?;
 
     if User::check_password(&query.password, &user.password, &user.salt) {
-        todo!()
-        // session.set("user-info", user).await;
-        // return Ok(Json(OperResult::ok()));
+        let now = chrono::Local::now().timestamp();
+        let expire = now + 60 * 60 * 24 * 1;
+        let auth_id: String = repeat_with(fastrand::alphanumeric).take(12).collect();
+        let token = auth::encode(&AuthClaims {
+            exp: expire,
+            iat: now,
+            id: auth_id.clone(),
+            user: user.id,
+        });
+        sqlx::query(AuthModal::INSER_AUTH)
+            .bind(auth_id)
+            .bind(user.id)
+            .bind(expire)
+            .execute(&pool)
+            .await?;
+        return Ok(Json(serde_json::json!({
+            "token": token,
+            "expire": expire,
+        })));
     }
     return Err(AppError::Custom((
         StatusCode::BAD_REQUEST,

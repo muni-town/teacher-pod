@@ -5,9 +5,10 @@ use crate::api::OperResult;
 #[allow(dead_code)]
 pub enum AppError {
     MissingParams(String),
-    AccessDenied,
+    AccessDenied,    
     Sqlx(sqlx::Error),
     Custom((StatusCode, String)),
+    InvalidToken,
 }
 
 impl From<sqlx::Error> for AppError {
@@ -29,6 +30,7 @@ impl IntoResponse for AppError {
                 format!("missing required parameters: {}", p),
             ),
             AppError::AccessDenied => (StatusCode::UNAUTHORIZED, "access denied".to_string()),
+            AppError::InvalidToken => (StatusCode::BAD_REQUEST, "invalid token".to_string()),
             AppError::Sqlx(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()),
             AppError::Custom(v) => v,
         };
