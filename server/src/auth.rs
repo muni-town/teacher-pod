@@ -21,6 +21,7 @@ impl<B> FromRequest<B> for AuthClaims where B: Send {
                 .await
                 .map_err(|_| AppError::InvalidToken)?;
         // Decode the user data
+        println!("{:?}", bearer.token());
         let token_data = decode(bearer.token());
         if let None = token_data {
             return Err(AppError::InvalidToken);

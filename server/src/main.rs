@@ -7,7 +7,7 @@ use api::*;
 
 use axum::{
     routing::{get, post},
-    Extension, Router,
+    Extension, Router, http::header::{AUTHORIZATION, ACCEPT},
 };
 use sqlx::postgres::PgPoolOptions;
 use std::{net::SocketAddr, time::Duration};
@@ -31,7 +31,7 @@ async fn main() {
         .route("/self", get(account::self_info))
         .route("/users/:id", get(users::get_user))
         .layer(Extension(pool))
-        .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any));
+        .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(vec![AUTHORIZATION, ACCEPT]));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     axum::Server::bind(&addr)

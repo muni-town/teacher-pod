@@ -36,3 +36,9 @@ pub struct OperResult {
     pub status: String,
     pub message: String
 }
+
+#[derive(Deserialize, Clone)]
+pub struct AuthInfo {
+    pub token: String,
+    pub expire: i64,
+}
