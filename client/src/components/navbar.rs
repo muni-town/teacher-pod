@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
 
-use crate::{mode::{is_dark, mode}, data::account::is_login};
+use crate::{mode::{is_dark, mode}, data::account::current_user};
 
 pub fn NavBar(cx: Scope) -> Element {
 
@@ -26,29 +26,27 @@ pub fn NavBar(cx: Scope) -> Element {
     let current_mobile_class = "bg-gray-200 dark:bg-gray-900 text-black dark:text-white block px-3 py-2 rounded-md text-base font-medium";
 
     let user_center = use_future(&cx, (), |_| async move {
-        is_login().await
+        current_user().await
     });
     let user_center = match user_center.value() {
-        Some(true) => rsx! {
+        Some(Some(user)) => rsx! {
             div {
                 class: "ml-3 relative",
                 div {
-                    button {
+                    Link {
                         class: "bg-white dark:bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white",
                         id: "user-menu-button",
-                        "aria-expanded": "false",
-                        "aria-haspopup": "true",
-                        r#type: "button",
+                        to: "/user/{user.id}",
                         img {
                             class: "h-8 w-8 rounded-full",
                             alt: "",
-                            src: "https://avatars.githubusercontent.com/u/41265098?v=4",
+                            src: "{user.avatar}",
                         }
                     }
                 }
             }
         },
-        Some(false) => login_button,
+        Some(None) => login_button,
         None => login_button,
     };
 
@@ -83,7 +81,7 @@ pub fn NavBar(cx: Scope) -> Element {
                             img {
                                 class: "block h-8 w-auto",
                                 alt: "Workflow",
-                                src: "./assets/image/logo.png",
+                                src: "/assets/image/logo.png",
                             }
                         }
                         div {

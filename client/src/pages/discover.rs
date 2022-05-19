@@ -4,7 +4,7 @@ use crate::{
     components::{
         card::{Card, RecommendList, PopularTopics}, list::SimpleUserList,
     },
-    data::model::{SimpleArticle, Topic, SimpleUser},
+    data::model::{SimpleArticle, Topic},
 };
 
 pub fn Discover(cx: Scope) -> Element {
@@ -90,14 +90,7 @@ pub fn Discover(cx: Scope) -> Element {
                         div {
                             class: "mt-5",
                             SimpleUserList {
-                                data: vec![
-                                    SimpleUser {
-                                        id: 1000,
-                                        name: "YuKun Liu".into(),
-                                        avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg".into(),
-                                        email: "mrxzx.info@gmail.com".into()
-                                    }
-                                ]
+                                data: vec![]
                             }
                         }
                     }

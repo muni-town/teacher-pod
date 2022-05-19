@@ -1,7 +1,7 @@
 use crate::hooks::use_storage;
 
 use super::{
-    model::{AuthInfo, OperResult},
+    model::{AuthInfo, OperResult, SimpleUser},
     request::get,
 };
 
@@ -10,12 +10,19 @@ pub fn token() -> String {
     storage.get_item("auth").unwrap().unwrap_or_default()
 }
 
-pub async fn is_login() -> bool {
+pub async fn current_user() -> Option<SimpleUser> {
     let resp = get("/self")
         .header("Authorization", &format!("Bearer {}", token()))
         .send()
         .await;
-    resp.is_ok() && resp.unwrap().status() == 200
+    if resp.is_err() {
+        return None;
+    }
+    let resp = resp.unwrap();
+    if !resp.ok() {
+        return None;
+    }
+    Some(resp.json::<SimpleUser>().await.unwrap())
 }
 
 pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {

@@ -17,12 +17,13 @@ pub struct Topic {
     pub image: String,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
 pub struct SimpleUser {
     pub id: i32,
-    pub name: String,
+    pub username: String,
     pub avatar: String,
     pub email: String,
+    pub introduction: String,
 }
 
 #[derive(Clone, PartialEq)]

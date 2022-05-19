@@ -100,7 +100,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                                 eval_script("alert(1)");
                             },
                             source {
-                                src: "./assets/test.mp3",
+                                src: "/assets/test.mp3",
                                 "type": "audio/mp3"
                             }
                         }

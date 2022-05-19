@@ -1,4 +1,4 @@
-#[allow(non_snake_case)]
+#![allow(non_snake_case)]
 
 mod components;
 mod hooks;
@@ -53,6 +53,8 @@ fn app(cx: Scope) -> Element {
 
             Route { to: "/login", pages::login::Login {} }
             Route { to: "/register", pages::login::Register {} }
+
+            Route { to: "/user/:userid", pages::user::User {} }
 
             Route { to: "", pages::error::_404 {} }
             Footer {}
