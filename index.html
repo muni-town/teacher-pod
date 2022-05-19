@@ -11,8 +11,8 @@
 <body style="height: 100%;">
   <div id="main"></div>
   <script type="module">
-    import init from "./assets/dioxus/teacher-pod.js";
-    init("./assets/dioxus/teacher-pod_bg.wasm").then(wasm => {
+    import init from "/assets/dioxus/teacher-pod.js";
+    init("/assets/dioxus/teacher-pod_bg.wasm").then(wasm => {
       if (wasm.__wbindgen_start == undefined) {
         wasm.main();
       }
