@@ -23,6 +23,8 @@ pub struct SimpleUser {
     pub username: String,
     pub avatar: String,
     pub email: String,
+    pub gender: String,
+    pub reg_date: String,
     pub introduction: String,
 }
 
