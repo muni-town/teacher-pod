@@ -39,6 +39,7 @@ create table if not exists contents (
     author          int             not null,
     topic           int             not null,
     description     text            default '',
+    cover_image     varchar(255)    default '',
     up_date         date            default current_date
 );
 

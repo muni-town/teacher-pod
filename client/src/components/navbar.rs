@@ -36,7 +36,7 @@ pub fn NavBar(cx: Scope) -> Element {
                     Link {
                         class: "bg-white dark:bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white",
                         id: "user-menu-button",
-                        to: "/user/{user.id}",
+                        to: "/u/{user.id}",
                         img {
                             class: "h-8 w-8 rounded-full",
                             alt: "",

@@ -30,6 +30,7 @@ async fn main() {
         .route("/register", post(account::register))
         .route("/self", get(account::self_info))
         .route("/users/:id", get(users::get_user))
+        .route("/contents/:id", get(contents::get_content))
         .layer(Extension(pool))
         .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(vec![AUTHORIZATION, ACCEPT]));
 

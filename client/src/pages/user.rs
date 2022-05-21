@@ -36,9 +36,9 @@ pub fn User(cx: Scope) -> Element {
                     class: "container mx-auto",
                     Card {
                         div {
-                            class: "h-44",
+                            class: "h-56",
                             div {
-                                class: "flex flex-col justify-center items-center gap-2",
+                                class: "flex flex-col justify-center items-center gap-3",
                                 img {
                                     class: "h-28 w-28 object-cover rounded-full",
                                     src: "https://avatars.githubusercontent.com/u/41265098?v=4",
@@ -46,6 +46,59 @@ pub fn User(cx: Scope) -> Element {
                                 h1 {
                                     class: "text-2xl font-semibold dark:text-white",
                                     "YuKun Liu"
+                                }
+                                if *current_user_page.get() {
+                                    rsx! {
+                                        div {
+                                            class: "
+                                            inline-block 
+                                            px-6 
+                                            py-2 
+                                            border-2 
+                                            border-blue-600 
+                                            text-blue-600 
+                                            font-medium 
+                                            text-xs 
+                                            leading-tight 
+                                            uppercase 
+                                            rounded 
+                                            hover:bg-black 
+                                            hover:bg-opacity-5 
+                                            focus:outline-none 
+                                            focus:ring-0 
+                                            transition 
+                                            duration-150 
+                                            ease-in-out
+                                            ",
+                                            "edit info"
+                                        }
+                                    }
+                                } else {
+                                    rsx! {
+                                        div {
+                                            class: "
+                                            inline-block 
+                                            px-6 
+                                            py-2 
+                                            border-2 
+                                            border-blue-600 
+                                            text-blue-600 
+                                            font-medium 
+                                            text-xs 
+                                            leading-tight 
+                                            uppercase 
+                                            rounded 
+                                            hover:bg-black 
+                                            hover:bg-opacity-5 
+                                            focus:outline-none 
+                                            focus:ring-0 
+                                            transition 
+                                            duration-150 
+                                            ease-in-out
+                                            ",
+                                            "follow"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -82,7 +135,7 @@ pub fn User(cx: Scope) -> Element {
                                                     }
                                                     p {
                                                         class: "text-gray-700 dark:text-white mb-6",
-                                                        "thi is a test content"
+                                                        "this a test content"
                                                     }
                                                     button {
                                                         class: "inline-block px-4 py-1.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out",
