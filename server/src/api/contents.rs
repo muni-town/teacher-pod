@@ -10,11 +10,11 @@ use crate::{
 /// this struct is use to response to api request.
 #[derive(Deserialize, Serialize)]
 pub struct ResponseContent {
-    pub r#type: i64,
+    pub r#type: i32,
     pub title: String,
     pub source: String,
     pub author: SimpleUser,
-    pub topic: i64,
+    pub topic: i32,
     pub description: String,
     pub cover_image: String,
     pub up_date: sqlx::types::chrono::NaiveDate,
