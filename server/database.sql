@@ -1,6 +1,6 @@
 create table if not exists auth (
     id      varchar(128)    not null   primary key,
-    user    int             not null,
+    account int             not null,
     expire  int             not null
 );
 
@@ -31,7 +31,6 @@ insert into topics (name, image) values ('Technology', 'https://picsum.photos/se
 insert into topics (name, image) values ('Life', 'https://picsum.photos/seed/3/2000/1000');
 insert into topics (name, image) values ('History', 'https://picsum.photos/seed/5/2000/1000');
 
-
 create table if not exists contents (
     id              bigserial       not null    primary key,
     type            int             default 0,
@@ -41,4 +40,13 @@ create table if not exists contents (
     topic           int             not null,
     description     text            default '',
     up_date         date            default current_date
+);
+
+create type actype as enum ('collect', 'follow', 'publish', '')
+create table if not exists activity (
+    id              bigserial       not null    primary key,
+    account         int             not null,
+    type            actype          not null,
+    target          int             not null,
+    curr_time       timestamp       default current_timestamp
 );

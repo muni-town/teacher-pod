@@ -1,20 +1,32 @@
 use dioxus::prelude::*;
+use dioxus_heroicons::{Icon, solid::Shape};
 
 use crate::{
     components::card::Card,
-    data::{model::SimpleUser, request},
+    data::{model::SimpleUser, request, account::current_user},
 };
 
 pub fn User(cx: Scope) -> Element {
     let route = use_route(&cx);
     let userid = route.segment("userid").unwrap().to_string();
 
-    let user_info: &UseFuture<Option<SimpleUser>> = use_future(&cx, (), |_| async move {
-        let resp = request::get(&format!("/users/{}", userid))
-            .send()
-            .await
-            .ok()?;
-        resp.json::<SimpleUser>().await.ok()
+    let current_user_page = use_state(&cx, || false);
+
+    let user_info: &UseFuture<Option<SimpleUser>> = use_future(&cx, (), |_| {
+        let current_user_page = current_user_page.clone();
+        async move {
+        
+            if let Some(u) = current_user().await {
+                current_user_page.set(true);
+                return Some(u);
+            }
+    
+            let resp = request::get(&format!("/users/{}", userid))
+                .send()
+                .await
+                .ok()?;
+            resp.json::<SimpleUser>().await.ok()
+        }
     });
 
     match user_info.value() {
@@ -41,8 +53,47 @@ pub fn User(cx: Scope) -> Element {
                             div {
                                 class: "grid sm:grid-cols-4 gap-4 dark:text-white",
                                 div {
-                                    class: "col-span-3 bg-gray-400 w-full",
-                                    "123"
+                                    class: "col-span-3",
+                                    ol {
+                                        class: "border-l-2 border-purple-600",
+                                        li {
+                                            div {
+                                                class: "md:flex flex-start",
+                                                div {
+                                                    class: "bg-purple-600 w-6 h-6 flex items-center justify-center rounded-full -ml-3 text-white",
+                                                    Icon {
+                                                        icon: Shape::Star
+                                                    }
+                                                }
+                                                div {
+                                                    class: "block p-6 rounded-lg shadow-lg bg-gray-100 dark:bg-gray-900 ml-6 mb-10 w-full",
+                                                    div {
+                                                        class: "flex justify-between mb-4",
+                                                        a {
+                                                            class: "font-medium text-purple-600 hover:text-purple-700 focus:text-purple-800 duration-300 transition ease-in-out text-sm",
+                                                            href: "#",
+                                                            "New Web Design"
+                                                        }
+                                                        a {
+                                                            class: "font-medium text-purple-600 hover:text-purple-700 focus:text-purple-800 duration-300 transition ease-in-out text-sm",
+                                                            href: "#",
+                                                            "04 / 02 / 2022"
+                                                        }
+                                                    }
+                                                    p {
+                                                        class: "text-gray-700 dark:text-white mb-6",
+                                                        "thi is a test content"
+                                                    }
+                                                    button {
+                                                        class: "inline-block px-4 py-1.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out",
+                                                        "data-mdb-ripple": "true",
+                                                        r#type: "button",
+                                                        "Preview"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 div {
                                     Card {
