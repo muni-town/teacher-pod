@@ -10,6 +10,7 @@ use crate::{
 /// this struct is use to response to api request.
 #[derive(Deserialize, Serialize)]
 pub struct ResponseContent {
+    pub id: i64,
     pub r#type: i32,
     pub title: String,
     pub source: String,
@@ -24,7 +25,7 @@ pub async fn get_content(
     Path(id): Path<i64>,
     Extension(pool): Extension<PgPool>,
 ) -> Result<Json<ResponseContent>, AppError> {
-    let content = sqlx::query_as::<_, Content>(Content::get_content)
+    let content = sqlx::query_as::<_, Content>(Content::GET_CONTENT)
         .bind(id)
         .fetch_one(&pool)
         .await?;
@@ -35,6 +36,7 @@ pub async fn get_content(
         .await?;
 
     Ok(Json(ResponseContent {
+        id: content.id,
         author,
         r#type: content.r#type,
         title: content.title,

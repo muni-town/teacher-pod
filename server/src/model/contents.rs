@@ -1,10 +1,9 @@
 use serde::{Serialize, Deserialize};
 use sqlx::FromRow;
 
-use super::users::SimpleUser;
-
 #[derive(FromRow, Serialize, Deserialize)]
 pub struct Content {
+    pub id: i64,
     pub r#type: i32,
     pub title: String,
     pub source: String,
@@ -16,5 +15,5 @@ pub struct Content {
 }
 
 impl Content {
-    pub const get_content:&'static str = "select * from contents where id = $1";
+    pub const GET_CONTENT:&'static str = "select * from contents where id = $1";
 }

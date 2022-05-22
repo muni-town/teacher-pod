@@ -1,14 +1,28 @@
 use serde::{Deserialize, Serialize};
 
-/// this struct use for display a item on home page.
 #[derive(Debug, Clone, PartialEq)]
-pub struct SimpleArticle {
+pub struct SimpleContent {
     pub id: i32,
+    pub r#type: i32,
     pub title: String,
-    pub image: String,
-    pub author_id: i32,
-    pub create_date: i64,
+    pub cover_image: String,
+    pub up_date: String,
 }
+
+/// this struct use for display a item on home page.
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
+pub struct Content {
+    pub id: i32,
+    pub r#type: i32,
+    pub title: String,
+    pub source: String,
+    pub author: SimpleUser,
+    pub topic: i32,
+    pub description: String,
+    pub cover_image: String,
+    pub up_date: String,
+}
+
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Topic {

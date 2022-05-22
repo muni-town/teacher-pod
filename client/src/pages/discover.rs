@@ -4,7 +4,7 @@ use crate::{
     components::{
         card::{Card, RecommendList, PopularTopics}, list::SimpleUserList,
     },
-    data::model::{SimpleArticle, Topic},
+    data::model::{SimpleContent, Topic},
 };
 
 pub fn Discover(cx: Scope) -> Element {
@@ -18,33 +18,40 @@ pub fn Discover(cx: Scope) -> Element {
                 }
                 RecommendList {
                     data: vec![
-                        SimpleArticle { 
-                            id: 1000, 
-                            title: "About Us - TeacherPod".to_string(), 
-                            image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
-                            author_id: 0, 
-                            create_date: 1652418229,
-                        },
-                        SimpleArticle { 
-                            id: 1001, 
-                            title: "About Us - TeacherPod".to_string(), 
-                            image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
-                            author_id: 0, 
-                            create_date: 1652418229,
-                        },
-                        SimpleArticle { 
-                            id: 1002, 
-                            title: "About Us - TeacherPod".to_string(), 
-                            image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
-                            author_id: 0, 
-                            create_date: 1652418229,
-                        },
-                        SimpleArticle { 
+                        SimpleContent { 
                             id: 1003, 
+                            r#type: 0,
                             title: "About Us - TeacherPod".to_string(), 
-                            image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
-                            author_id: 0, 
-                            create_date: 1652418229,
+                            cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
+                            up_date: "2022-05-20".into(),
+                        },
+                        SimpleContent { 
+                            id: 1003, 
+                            r#type: 0,
+                            title: "About Us - TeacherPod".to_string(), 
+                            cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
+                            up_date: "2022-05-20".into(),
+                        },
+                        SimpleContent { 
+                            id: 1003, 
+                            r#type: 0,
+                            title: "About Us - TeacherPod".to_string(), 
+                            cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
+                            up_date: "2022-05-20".into(),
+                        },
+                        SimpleContent { 
+                            id: 1003, 
+                            r#type: 0,
+                            title: "About Us - TeacherPod".to_string(), 
+                            cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
+                            up_date: "2022-05-20".into(),
+                        },
+                        SimpleContent { 
+                            id: 1003, 
+                            r#type: 0,
+                            title: "About Us - TeacherPod".to_string(), 
+                            cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
+                            up_date: "2022-05-20".into(),
                         },
                     ]
                 }
