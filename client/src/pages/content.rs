@@ -23,7 +23,21 @@ pub fn Content(cx: Scope) -> Element {
             div {
                 class: "container mx-auto",
                Card {
-                   "123"
+                   div {
+                       class: "grid grid-cols-4 gap-4",
+                       div {
+                           img {
+                               class: "w-full h-auto rounded-md",
+                               src: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg"
+                           }
+                       }
+                       div {
+                           h1 {
+                               class: "text-2xl font-semibold dark:text-white",
+                               "About Us - TeacherPod"
+                           }
+                       }
+                   }
                }
             }
         }),
