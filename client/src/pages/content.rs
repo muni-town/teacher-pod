@@ -26,15 +26,20 @@ pub fn Content(cx: Scope) -> Element {
                    div {
                        class: "grid grid-cols-4 gap-4",
                        div {
+                           class: "col-span-1",
                            img {
                                class: "w-full h-auto rounded-md",
                                src: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg"
                            }
                        }
                        div {
+                           class: "col-span-2",
                            h1 {
-                               class: "text-2xl font-semibold dark:text-white",
+                               class: "text-3xl font-semibold dark:text-white",
                                "About Us - TeacherPod"
+                           }
+                           span {
+                               class: ""
                            }
                        }
                    }
