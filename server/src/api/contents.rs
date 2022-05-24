@@ -31,7 +31,7 @@ pub async fn get_content(
         .await?;
 
     let author = sqlx::query_as::<_, SimpleUser>(SimpleUser::SELECT_FROM_ID)
-        .bind(content.author)
+        .bind(content.author as i64)
         .fetch_one(&pool)
         .await?;
 

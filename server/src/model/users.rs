@@ -52,7 +52,5 @@ pub struct SimpleUser {
 
 #[allow(dead_code)]
 impl SimpleUser {
-    pub const SELECT_FROM_ID: &'static str = "select 
-    id, username, gender, email, reg_date, introduction, avatar 
-    from users where id = $1";
+    pub const SELECT_FROM_ID: &'static str = "select id, username, gender, email, reg_date, introduction, avatar from users where id = $1";
 }
