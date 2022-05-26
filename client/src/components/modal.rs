@@ -31,7 +31,7 @@ pub fn PlayBox(cx: Scope) -> Element {
             }
         }
         div {
-            class: "{=uu6} fixed bottom-8 left-0 w-1/3 h-20 rounded
+            class: "{player_hidden} fixed bottom-8 left-0 w-1/3 h-20 rounded
             bg-white dark:bg-gray-900 shadow-2xl
             px-2 py-2 z-40
             ",
