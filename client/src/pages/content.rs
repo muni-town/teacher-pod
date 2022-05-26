@@ -1,8 +1,9 @@
 use dioxus::prelude::*;
+use dioxus_heroicons::{solid::Shape, Icon};
 
 use crate::{
     components::card::Card,
-    data::{model, request},
+    data::{model, request}, PLAYER_STATUS,
 };
 
 pub fn Content(cx: Scope) -> Element {
@@ -17,6 +18,8 @@ pub fn Content(cx: Scope) -> Element {
             .ok()?;
         res.json::<model::Content>().await.ok()
     });
+
+    let player_box = use_atom_ref(&cx, PLAYER_STATUS);
 
     match info.value() {
         Some(Some(info)) => {
@@ -56,12 +59,26 @@ pub fn Content(cx: Scope) -> Element {
                                 " | {info.up_date}"
                             }
                             p {
-                                class: "font-semibold text-gray-500 dark:text-gray-300 h-[140px]",
+                                class: "font-semibold text-gray-500 dark:text-gray-300 mt-4",
                                 "{description}"
                             }
                             p {
-                                class: "",
-                                "123213123"
+                                class: "mt-6 justify-center space-x-2",
+                                button {
+                                    class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+                                    onclick: |_| {
+                                        player_box.write().pause = false;
+                                    },
+                                    Icon {
+                                        icon: Shape::Play
+                                    }
+                                }
+                                button {
+                                    class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+                                        Icon {
+                                        icon: Shape::Star
+                                    }
+                                }
                             }
                         }
                     }

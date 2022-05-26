@@ -19,35 +19,35 @@ pub fn Discover(cx: Scope) -> Element {
                 RecommendList {
                     data: vec![
                         SimpleContent { 
-                            id: 1003, 
+                            id: 1, 
                             r#type: 0,
                             title: "About Us - TeacherPod".to_string(), 
                             cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             up_date: "2022-05-20".into(),
                         },
                         SimpleContent { 
-                            id: 1003, 
+                            id: 1, 
                             r#type: 0,
                             title: "About Us - TeacherPod".to_string(), 
                             cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             up_date: "2022-05-20".into(),
                         },
                         SimpleContent { 
-                            id: 1003, 
+                            id: 1, 
                             r#type: 0,
                             title: "About Us - TeacherPod".to_string(), 
                             cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             up_date: "2022-05-20".into(),
                         },
                         SimpleContent { 
-                            id: 1003, 
+                            id: 1, 
                             r#type: 0,
                             title: "About Us - TeacherPod".to_string(), 
                             cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
                             up_date: "2022-05-20".into(),
                         },
                         SimpleContent { 
-                            id: 1003, 
+                            id: 1, 
                             r#type: 0,
                             title: "About Us - TeacherPod".to_string(), 
                             cover_image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg".to_string(), 
