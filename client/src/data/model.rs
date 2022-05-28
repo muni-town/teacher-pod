@@ -46,6 +46,7 @@ pub struct SimpleUser {
 pub struct PlayerBoxStatus {
     pub display: bool,
     pub pause: bool,
+    pub current: Option<Content>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]

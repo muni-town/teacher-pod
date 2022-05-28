@@ -1,11 +1,18 @@
 use dioxus::{prelude::*, web::use_eval};
 use dioxus_heroicons::{Icon, solid::Shape};
 
-use crate::PLAYER_STATUS;
+use crate::{PLAYER_STATUS, data::model::{Content, SimpleUser}};
 
 pub fn PlayBox(cx: Scope) -> Element {
 
     let status = use_atom_ref(&cx, PLAYER_STATUS);
+
+    if status.read().current.is_none() {
+        return None;
+    }
+
+    let info = status.read().current.clone().unwrap();
+
     let player_hidden = if !status.read().display {
         "hidden"
     } else { "hidden sm:block" };
@@ -14,6 +21,7 @@ pub fn PlayBox(cx: Scope) -> Element {
     } else { "hidden sm:block" };
 
     let eval_script = use_eval::<&str>(&cx);
+
 
     cx.render(rsx! {
         div {
@@ -41,7 +49,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                     class: "flex-initial w-16",
                     img {
                         class: "h-full rounded",
-                        src: "https://picsum.photos/seed/2/200/200",
+                        src: "{info.cover_image}",
                     }
                 }
                 div {
@@ -49,7 +57,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                     div {
                         span {
                             class: "text-black dark:text-white",
-                            "66. About Us - TeacherPod"
+                            "{info.title}"
                         }
                         span {
                             class: "absolute right-0",
@@ -100,7 +108,8 @@ pub fn PlayBox(cx: Scope) -> Element {
                                 eval_script("alert(1)");
                             },
                             source {
-                                src: "/assets/test.mp3",
+                                id: "audio-source",
+                                src: "{info.source}",
                                 "type": "audio/mp3"
                             }
                         }

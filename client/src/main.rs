@@ -24,6 +24,7 @@ static PLAYER_STATUS: dioxus::fermi::AtomRef<PlayerBoxStatus> = |_| {
     PlayerBoxStatus {
         display: true,
         pause: true,
+        current: None,
     }
 };
 
