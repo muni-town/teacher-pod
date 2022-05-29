@@ -1,7 +1,7 @@
 use dioxus::{prelude::*, web::use_eval};
 use dioxus_heroicons::{Icon, solid::Shape};
 
-use crate::{PLAYER_STATUS, data::model::{Content, SimpleUser}};
+use crate::PLAYER_STATUS;
 
 pub fn PlayBox(cx: Scope) -> Element {
 
