@@ -1,14 +1,36 @@
 use dioxus::{prelude::*, web::use_eval};
 use dioxus_heroicons::{Icon, solid::Shape};
 
-use crate::PLAYER_STATUS;
+use crate::{PLAYER_STATUS, data::model::Content};
 
 pub fn PlayBox(cx: Scope) -> Element {
 
+    let current_content: &UseState<Option<Content>> = use_state(&cx, || None);
     let status = use_atom_ref(&cx, PLAYER_STATUS);
+    let status_content = status.read().current.clone();
+
+    // use this check to reload the play box source
+    if &status_content != current_content.get() {
+        current_content.set(status_content);
+        return cx.render(rsx! {
+            div {}
+        });
+    }
 
     if status.read().current.is_none() {
-        return None;
+        return cx.render(rsx! {
+            div {
+                class: "fixed bottom-12 left-2 rounded-full w-10 h-10 
+                bg-white dark:bg-gray-900 hover:bg-black dark:hover:bg-white",
+                button {
+                    class: "justify-center w-full h-full text-black dark:text-white hover:text-white dark:hover:text-black",
+                    Icon {
+                        class: "h-full w-full",
+                        icon: Shape::Play,
+                    }
+                }
+            }
+        });
     }
 
     let info = status.read().current.clone().unwrap();
