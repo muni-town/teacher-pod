@@ -3,7 +3,12 @@ use dioxus_heroicons::{solid::Shape, Icon};
 
 use crate::{
     components::card::Card,
-    data::{model, request}, PLAYER_STATUS,
+    data::{
+        account::current_user,
+        model::{self, SimpleUser},
+        request,
+    },
+    PLAYER_STATUS,
 };
 
 pub fn Content(cx: Scope) -> Element {
@@ -19,6 +24,9 @@ pub fn Content(cx: Scope) -> Element {
         res.json::<model::Content>().await.ok()
     });
 
+    let user_info: &UseFuture<Option<SimpleUser>> =
+        use_future(&cx, (), |_| async move { current_user().await });
+
     let player_box = use_atom_ref(&cx, PLAYER_STATUS);
 
     match info.value() {
@@ -28,6 +36,30 @@ pub fn Content(cx: Scope) -> Element {
                 format!("{}...", &description[0..349])
             } else {
                 description
+            };
+
+            let button_list: Element = {
+                // check user login
+                let v = user_info.value();
+                if v.is_some() && v.unwrap().is_some() && v.unwrap().clone().unwrap().id == info.author.id {
+                    cx.render(rsx! {
+                        button {
+                            class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+                            "123"
+                        }
+                    })
+                } else {
+                    cx.render(rsx! {
+                        button {
+                            class: "inline-block px-6 py-2 border-2 border-red-500 text-red-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+                            "Report"
+                        }
+                        button {
+                            class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+                            "Share"
+                        }
+                    })
+                }
             };
 
             cx.render(rsx! {
@@ -81,11 +113,42 @@ pub fn Content(cx: Scope) -> Element {
                                 }
                             }
                         }
+                        div {
+                            ul {
+                                class: "list-reset flex flex-col h-full",
+                                li {
+                                    class: "rounded-t relative -mb-px block border p-4 border-grey dark:text-white",
+                                    strong { "Publish User : " }
+                                    Link {
+                                        class: "hover:text-blue-500 underline"
+                                        to: "/u/{info.author.id}",
+                                        "{info.author.username}"
+                                    }
+                                }
+                                li {
+                                    class: "relative -mb-px block border p-4 border-grey dark:text-white",
+                                    strong { "Publish Date : " }
+                                    "{info.up_date}"
+                                }
+                                li {
+                                    class: "relative -mb-px block border p-4 border-grey dark:text-white",
+                                    strong { "Favorites Number : " }
+                                    "32"
+                                }
+                                li {
+                                    class: "rounded-b relative block border p-4 border-grey dark:text-white",
+                                    div {
+                                        class: "flex space-x-2 justify-center",
+                                        button_list
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 }
             })
-        },
+        }
         Some(None) => cx.render(rsx! {
             crate::pages::error::_404()
         }),
