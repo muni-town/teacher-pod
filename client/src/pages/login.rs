@@ -1,4 +1,4 @@
-use dioxus::prelude::*;
+use dioxus::{prelude::*, web::use_eval};
 use dioxus_toast::ToastInfo;
 
 use crate::{data::account::login, TOAST_MANAGER};
@@ -62,7 +62,8 @@ pub fn Login(cx: Scope) -> Element {
                                                 hide_after: Some(4),
                                             });
                                         } else {
-                                            toast.write().popup(ToastInfo::success("OK", "OK"));
+                                            // toast.write().popup(ToastInfo::success("OK", "OK"));
+                                            let _ = js_sys::eval("location.href = '/';");
                                         }
                                     }
                                 });
