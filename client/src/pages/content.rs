@@ -114,6 +114,11 @@ pub fn Content(cx: Scope) -> Element {
                                 class: "list-reset flex flex-col h-full",
                                 li {
                                     class: "rounded-t relative -mb-px block border p-4 border-grey dark:text-white",
+                                    strong { "Topic : " }
+                                    "Audio"
+                                }
+                                li {
+                                    class: "rounded-t relative -mb-px block border p-4 border-grey dark:text-white",
                                     strong { "Publish User : " }
                                     Link {
                                         class: "hover:text-blue-500 underline"

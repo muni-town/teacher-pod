@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub mod users;
 pub mod account;
 pub mod contents;
+pub mod topics;
 
 
 #[derive(Serialize, Deserialize)]

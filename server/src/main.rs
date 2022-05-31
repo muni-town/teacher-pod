@@ -31,6 +31,7 @@ async fn main() {
         .route("/self", get(account::self_info))
         .route("/users/:id", get(users::get_user))
         .route("/contents/:id", get(contents::get_content))
+        .route("/topics/:id", get(topics::get_topic))
         .layer(Extension(pool))
         .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(vec![AUTHORIZATION, ACCEPT]));
 
