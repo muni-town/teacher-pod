@@ -24,7 +24,7 @@ pub struct Content {
 }
 
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
 pub struct Topic {
     pub id: i32,
     pub name: String,

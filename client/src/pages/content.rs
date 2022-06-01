@@ -5,16 +5,24 @@ use crate::{
     components::card::Card,
     data::{
         account::current_user,
-        model::{self, SimpleUser},
+        model::{self, SimpleUser, Topic, Content},
         request,
     },
     PLAYER_STATUS,
 };
 
+struct ContentInfo {
+    content: Content,
+    topic: Topic,
+    author: SimpleUser,
+}
+
 pub fn Content(cx: Scope) -> Element {
     let route = use_route(&cx);
 
     let id = route.segment("id").unwrap().to_string();
+
+    let content: &UseState<Option<model::Content>> = use_state(&cx, || None);
 
     let info: &UseFuture<Option<model::Content>> = use_future(&cx, (), |_| async move {
         let res = request::get(&format!("/contents/{}", id))
@@ -26,6 +34,15 @@ pub fn Content(cx: Scope) -> Element {
 
     let user_info: &UseFuture<Option<SimpleUser>> =
         use_future(&cx, (), |_| async move { current_user().await });
+
+    let topic_info: &UseFuture<Option<Topic>> =
+        use_future(&cx, (content,), |(content,)| async move {
+            let res = request::get(&format!("/topics/{}", content.unwrap().topic))
+                .send()
+                .await
+                .ok()?;
+            res.json::<Topic>().await.ok()
+        });
 
     let player_box = use_atom_ref(&cx, PLAYER_STATUS);
 
@@ -41,7 +58,10 @@ pub fn Content(cx: Scope) -> Element {
             let button_list: Element = {
                 // check user login
                 let v = user_info.value();
-                if v.is_some() && v.unwrap().is_some() && v.unwrap().clone().unwrap().id == info.author.id {
+                if v.is_some()
+                    && v.unwrap().is_some()
+                    && v.unwrap().clone().unwrap().id == info.author.id
+                {
                     cx.render(rsx! {
                         button {
                             class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",

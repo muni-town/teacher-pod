@@ -9,5 +9,5 @@ pub struct Topic {
 }
 
 impl Topic {
-    pub const SELECT_FROM_ID: &'static str = "select id, namne, image from topics where id = $1;";
+    pub const SELECT_FROM_ID: &'static str = "select id, name, image from topics where id = $1;";
 }
