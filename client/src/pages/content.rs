@@ -5,7 +5,7 @@ use crate::{
     components::card::Card,
     data::{
         account::current_user,
-        model::{self, SimpleUser, Topic, Content},
+        model::{self, Content, SimpleUser, Topic},
         request,
     },
     PLAYER_STATUS,
@@ -14,7 +14,6 @@ use crate::{
 struct ContentInfo {
     content: Content,
     topic: Topic,
-    author: SimpleUser,
 }
 
 pub fn Content(cx: Scope) -> Element {
@@ -22,33 +21,31 @@ pub fn Content(cx: Scope) -> Element {
 
     let id = route.segment("id").unwrap().to_string();
 
-    let content: &UseState<Option<model::Content>> = use_state(&cx, || None);
-
-    let info: &UseFuture<Option<model::Content>> = use_future(&cx, (), |_| async move {
+    let info: &UseFuture<Option<ContentInfo>> = use_future(&cx, (), |_| async move {
         let res = request::get(&format!("/contents/{}", id))
             .send()
             .await
             .ok()?;
-        res.json::<model::Content>().await.ok()
+        let content = res.json::<model::Content>().await.ok()?;
+
+        let res = request::get(&format!("/topics/{}", content.topic))
+            .send()
+            .await
+            .ok()?;
+        let topic = res.json::<Topic>().await.ok()?;
+
+        Some(ContentInfo { content, topic })
     });
 
     let user_info: &UseFuture<Option<SimpleUser>> =
         use_future(&cx, (), |_| async move { current_user().await });
 
-    let topic_info: &UseFuture<Option<Topic>> =
-        use_future(&cx, (content,), |(content,)| async move {
-            let res = request::get(&format!("/topics/{}", content.unwrap().topic))
-                .send()
-                .await
-                .ok()?;
-            res.json::<Topic>().await.ok()
-        });
-
     let player_box = use_atom_ref(&cx, PLAYER_STATUS);
 
     match info.value() {
         Some(Some(info)) => {
-            let description = info.description.clone();
+            let content = &info.content;
+            let description = content.description.clone();
             let description = if description.len() > 350 {
                 format!("{}...", &description[0..349])
             } else {
@@ -60,7 +57,7 @@ pub fn Content(cx: Scope) -> Element {
                 let v = user_info.value();
                 if v.is_some()
                     && v.unwrap().is_some()
-                    && v.unwrap().clone().unwrap().id == info.author.id
+                    && v.unwrap().clone().unwrap().id == content.author.id
                 {
                     cx.render(rsx! {
                         button {
@@ -88,23 +85,23 @@ pub fn Content(cx: Scope) -> Element {
                             class: "col-span-1",
                             img {
                                 class: "w-full h-auto rounded-md",
-                                src: "{info.cover_image}"
+                                src: "{content.cover_image}"
                             }
                         }
                         div {
                             class: "col-span-2",
                             h1 {
                                 class: "text-3xl font-semibold dark:text-white",
-                                "{info.title}"
+                                "{content.title}"
                             }
                             p {
                                 class: "text-lg text-gray-400",
                                 Link {
                                     class: "hover:text-blue-500",
-                                    to: "/u/{info.author.id}",
-                                    "{info.author.username}"
+                                    to: "/user/{content.author.id}",
+                                    "{content.author.username}"
                                 }
-                                " | {info.up_date}"
+                                " | {content.up_date}"
                             }
                             p {
                                 class: "font-semibold text-gray-500 dark:text-gray-300 mt-4",
@@ -115,7 +112,7 @@ pub fn Content(cx: Scope) -> Element {
                                 button {
                                     class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
                                     onclick: |_| {
-                                        player_box.write().current = Some(info.clone());
+                                        player_box.write().current = Some(content.clone());
                                     },
                                     Icon {
                                         icon: Shape::Play
@@ -135,21 +132,25 @@ pub fn Content(cx: Scope) -> Element {
                                 li {
                                     class: "rounded-t relative -mb-px block border p-4 border-grey dark:text-white",
                                     strong { "Topic : " }
-                                    "Audio"
+                                    Link {
+                                        class: "hover:text-blue-500 underline",
+                                        to: "/topic/{info.topic.id}",
+                                        "{info.topic.name}"
+                                    }
                                 }
                                 li {
                                     class: "rounded-t relative -mb-px block border p-4 border-grey dark:text-white",
                                     strong { "Publish User : " }
                                     Link {
                                         class: "hover:text-blue-500 underline"
-                                        to: "/u/{info.author.id}",
-                                        "{info.author.username}"
+                                        to: "/user/{content.author.id}",
+                                        "{content.author.username}"
                                     }
                                 }
                                 li {
                                     class: "relative -mb-px block border p-4 border-grey dark:text-white",
                                     strong { "Publish Date : " }
-                                    "{info.up_date}"
+                                    "{content.up_date}"
                                 }
                                 li {
                                     class: "relative -mb-px block border p-4 border-grey dark:text-white",

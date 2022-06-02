@@ -41,7 +41,7 @@ pub fn User(cx: Scope) -> Element {
                                 class: "flex flex-col justify-center items-center gap-3",
                                 img {
                                     class: "h-28 w-28 object-cover rounded-full",
-                                    src: "https://avatars.githubusercontent.com/u/41265098?v=4",
+                                    src: "https://avatars.githubusercontent.com/user/41265098?v=4",
                                 }
                                 h1 {
                                     class: "text-2xl font-semibold dark:text-white",
