@@ -3,7 +3,7 @@ mod auth;
 mod error;
 mod model;
 
-use api::*;
+use api::{*, contents::recommend_content};
 
 use axum::{
     routing::{get, post},
@@ -29,8 +29,12 @@ async fn main() {
         .route("/login", get(account::login))
         .route("/register", post(account::register))
         .route("/self", get(account::self_info))
+
         .route("/users/:id", get(users::get_user))
+        
+        .route("/contents/",get(recommend_content))
         .route("/contents/:id", get(contents::get_content))
+        
         .route("/topics/:id", get(topics::get_topic))
         .layer(Extension(pool))
         .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(vec![AUTHORIZATION, ACCEPT]));

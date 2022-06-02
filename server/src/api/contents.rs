@@ -4,7 +4,7 @@ use sqlx::PgPool;
 
 use crate::{
     error::AppError,
-    model::{contents::Content, users::SimpleUser},
+    model::{config::Config, contents::Content, users::SimpleUser},
 };
 
 /// this struct is use to response to api request.
@@ -46,4 +46,27 @@ pub async fn get_content(
         cover_image: content.cover_image,
         up_date: content.up_date,
     }))
+}
+
+pub async fn recommend_content(
+    Extension(pool): Extension<PgPool>,
+) -> Result<Json<Vec<Content>>, AppError> {
+    // load data from config
+    let recommend_info = sqlx::query_as::<_, Config>(Config::GET_CONFIG)
+        .bind("RecommendList")
+        .fetch_one(&pool)
+        .await;
+    match recommend_info {
+        Ok(config) => {
+            let val = config.value;
+            let v = serde_json::from_str::<Vec<u32>>(&val);
+        }
+        Err(_) => {}
+    }
+
+    // for the default, we use latest 12 content to recommend.
+    let contents = sqlx::query_as::<_, Content>(Content::LATEST_12_CONTENT)
+        .fetch_all(&pool)
+        .await?;
+    Ok(Json(contents))
 }

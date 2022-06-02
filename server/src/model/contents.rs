@@ -16,4 +16,5 @@ pub struct Content {
 
 impl Content {
     pub const GET_CONTENT:&'static str = "select * from contents where id = $1;";
+    pub const LATEST_12_CONTENT: &'static str = "select * from contents order by id desc limit 12;";
 }
