@@ -188,7 +188,7 @@ pub fn User(cx: Scope) -> Element {
                                                         class: "font-semibold",
                                                         "Bio: "
                                                     }
-                                                    "Not Found..."
+                                                    "{user.introduction}"
                                                 }
                                             }
                                         }
