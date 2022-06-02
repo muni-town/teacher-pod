@@ -59,14 +59,22 @@ pub async fn recommend_content(
     match recommend_info {
         Ok(config) => {
             let val = config.value;
-            let v = serde_json::from_str::<Vec<u32>>(&val);
+            let v = serde_json::from_str::<Vec<u32>>(&val).unwrap_or_default();
+            let v = v.iter().map(|v| v.to_string()).collect::<Vec<String>>();
+            if v.len() == 0 {
+                return Ok(Json(vec![]));
+            }
+            let sql = format!("select * from contents where id in ({});", v.join(","));
+            let res = sqlx::query_as::<_, Content>(&sql).fetch_all(&pool).await?;
+            return Ok(Json(res));
         }
-        Err(_) => {}
+        Err(e) => {
+            println!("{:?}", e);
+            // for the default, we use latest 12 content to recommend.
+            let contents = sqlx::query_as::<_, Content>(Content::LATEST_12_CONTENT)
+                .fetch_all(&pool)
+                .await?;
+            Ok(Json(contents))
+        }
     }
-
-    // for the default, we use latest 12 content to recommend.
-    let contents = sqlx::query_as::<_, Content>(Content::LATEST_12_CONTENT)
-        .fetch_all(&pool)
-        .await?;
-    Ok(Json(contents))
 }

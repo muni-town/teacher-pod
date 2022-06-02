@@ -46,10 +46,10 @@ create table if not exists contents (
 create table if not exists config (
     id              bigserial       not null    primary key,
     name            varchar(100)    not null,
-    value           text            not null,
-)
+    value           text            not null
+);
 --- default config data
-insert into config (name, value) values ("RecommendList", "[]");
+insert into config (name, value) values ('RecommendList', '[]');
 
 create type actype as enum ('collect', 'follow', 'publish', '')
 create table if not exists activity (
