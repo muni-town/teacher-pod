@@ -10,6 +10,7 @@ use crate::{
 #[derive(Deserialize)]
 struct RequestData {
     recommend: Vec<SimpleContent>,
+    popular_topics: Vec<Topic>,
 }
 
 pub fn Discover(cx: Scope) -> Element {
@@ -20,11 +21,21 @@ pub fn Discover(cx: Scope) -> Element {
             let res = if let Ok(resp) = res {
                 resp
             } else {
-                return RequestData { recommend: vec![] };
+                return RequestData { recommend: vec![], popular_topics: vec![] };
             };
-            let data = res.json::<Vec<SimpleContent>>().await.unwrap_or_default();
+            let recommend = res.json::<Vec<SimpleContent>>().await.unwrap_or_default();
+            
+            let res = request::get("/topics/").send().await;
+            let res = if let Ok(resp) = res {
+                resp
+            } else {
+                return RequestData { recommend: vec![], popular_topics: vec![] };
+            };
+            let popular_topics = res.json::<Vec<Topic>>().await.unwrap_or_default();
+            
             RequestData {
-                recommend: data,
+                recommend,
+                popular_topics
             }
         }
     });
@@ -54,23 +65,7 @@ pub fn Discover(cx: Scope) -> Element {
                                     "Popular Topics"
                                 }
                                 PopularTopics {
-                                    data: vec![
-                                        Topic { 
-                                            id: 1,
-                                            name: "Technology".into(), 
-                                            image: "https://picsum.photos/seed/2/2000/1000".into() 
-                                        },
-                                        Topic {
-                                            id: 2,
-                                            name: "Life".into(),
-                                            image: "https://picsum.photos/seed/3/2000/1000".into()
-                                        },
-                                        Topic {
-                                            id: 3,
-                                            name: "History".into(),
-                                            image: "https://picsum.photos/seed/5/2000/1000".into()
-                                        }
-                                    ]
+                                    data: v.popular_topics.clone(),
                                 }
                             }
                         }
