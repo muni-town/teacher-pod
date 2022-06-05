@@ -56,17 +56,17 @@ pub fn Discover(cx: Scope) -> Element {
                                 PopularTopics {
                                     data: vec![
                                         Topic { 
-                                            id: 1001,
+                                            id: 1,
                                             name: "Technology".into(), 
                                             image: "https://picsum.photos/seed/2/2000/1000".into() 
                                         },
                                         Topic {
-                                            id: 1002,
+                                            id: 2,
                                             name: "Life".into(),
                                             image: "https://picsum.photos/seed/3/2000/1000".into()
                                         },
                                         Topic {
-                                            id: 1003,
+                                            id: 3,
                                             name: "History".into(),
                                             image: "https://picsum.photos/seed/5/2000/1000".into()
                                         }

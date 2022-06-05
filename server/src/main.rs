@@ -35,8 +35,8 @@ async fn main() {
         .route("/contents/",get(recommend_content))
         .route("/contents/:id", get(contents::get_content))
         
-        .route("/topics/:id", get(topics::get_topic))
         .route("/topics/recommend", get(topics::topic_recommend))
+        .route("/topics/:id", get(topics::get_topic))
 
         .layer(Extension(pool))
         .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(vec![AUTHORIZATION, ACCEPT]));

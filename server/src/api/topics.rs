@@ -22,6 +22,12 @@ pub async fn get_topic(
     Ok(Json(user))
 }
 
+pub async fn popular_topics(
+    Extension(pool): Extension<PgPool>,
+) -> Result<Json<Vec<Topic>>, AppError> {
+    todo!()
+}
+
 #[derive(Deserialize)]
 pub struct RecommendInfo {
     id: i64,

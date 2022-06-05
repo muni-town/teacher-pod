@@ -3,7 +3,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     components::card::{Card, RecommendList},
-    data::model::{SimpleContent, Topic},
+    data::{
+        model::{SimpleContent, Topic},
+        request,
+    },
 };
 
 #[derive(Serialize, Deserialize)]
@@ -14,41 +17,57 @@ struct RequestData {
 
 pub fn Topic(cx: Scope) -> Element {
     let router = use_route(&cx);
-    let topic_id = router.segment("id").unwrap();
+    let topic_id = router.segment("id").unwrap().to_string();
 
-    // let info: &UseFuture<Option<RequestData>> = use_future(&cx, (), |_| async move { todo!() });
+    let info: &UseFuture<Option<RequestData>> = use_future(&cx, (), |_| async move {
+        let res = request::get(&format!("/topics/{}", topic_id))
+            .send()
+            .await
+            .ok()?;
+        let topic = res.json::<Topic>().await.ok()?;
+        let res = request::get(&format!("/topics/recommend?id={}", topic_id))
+            .send()
+            .await
+            .ok()?;
+        let recommend = res.json::<Vec<SimpleContent>>().await.ok()?;
+        Some(RequestData { topic, recommend })
+    });
 
-    cx.render(rsx! {
-        div {
-            class: "container mx-auto",
-            Card {
+    match info.value() {
+        Some(Some(info)) => {
+            let topic = info.topic.clone();
+            cx.render(rsx! {
                 div {
-                    div {
-                        class: "w-full h-80",
-                        img {
-                            class: "rounded-xl brightness-50 w-full h-full",
-                            src: "https://picsum.photos/seed/2/2000/1000"
-                        }
-                        p {
-                            class: "text-5xl -translate-y-40 text-white font-bold flex justify-center",
-                            "Technology"
-                        }
-                    }
-                    div {
-                        RecommendList {
-                            data: vec![
-                                SimpleContent {
-                                    id: 1,
-                                    r#type: 1,
-                                    title: "Test".into(),
-                                    cover_image: "https://picsum.photos/id/10/400/400".into(),
-                                    up_date: "2004-04-09".into(),
+                    class: "container mx-auto",
+                    Card {
+                        div {
+                            div {
+                                class: "w-full h-80",
+                                img {
+                                    class: "rounded-xl brightness-50 w-full h-full",
+                                    src: "{topic.image}"
                                 }
-                            ]
+                                p {
+                                    class: "text-5xl -translate-y-40 text-white font-bold flex justify-center",
+                                    "{topic.name}"
+                                }
+                            }
+                            div {
+                                RecommendList {
+                                    data: info.recommend.clone(),
+                                }
+                            }
                         }
                     }
                 }
-            }
+            })
+        },
+        Some(None) => {
+            cx.render(rsx! {
+                crate::pages::error::_404 {}
+            })
         }
-    })
+        None => None,
+    }
+
 }

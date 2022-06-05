@@ -10,4 +10,5 @@ pub struct Topic {
 
 impl Topic {
     pub const SELECT_FROM_ID: &'static str = "select id, name, image from topics where id = $1;";
+    pub const POPULAR_TOPICS: &'static str = "select id, name, image from topics order by id desc limit 6;";
 }
