@@ -1,4 +1,4 @@
-use dioxus::{prelude::*, web::use_eval};
+use dioxus::prelude::*;
 use dioxus_toast::ToastInfo;
 
 use crate::{data::account::login, TOAST_MANAGER};
