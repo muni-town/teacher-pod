@@ -35,6 +35,7 @@ async fn main() {
         .route("/contents/",get(recommend_content))
         .route("/contents/:id", get(contents::get_content))
         
+        .route("/topics/", get(topics::popular_topics))
         .route("/topics/recommend", get(topics::topic_recommend))
         .route("/topics/:id", get(topics::get_topic))
 

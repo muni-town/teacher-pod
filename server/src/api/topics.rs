@@ -25,7 +25,10 @@ pub async fn get_topic(
 pub async fn popular_topics(
     Extension(pool): Extension<PgPool>,
 ) -> Result<Json<Vec<Topic>>, AppError> {
-    todo!()
+    let topics = sqlx::query_as::<_, Topic>(Topic::POPULAR_TOPICS)
+        .fetch_all(&pool)
+        .await?;
+    Ok(Json(topics))
 }
 
 #[derive(Deserialize)]
