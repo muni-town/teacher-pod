@@ -64,8 +64,11 @@ pub fn Discover(cx: Scope) -> Element {
                                     class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
                                     "Popular Topics"
                                 }
-                                PopularTopics {
-                                    data: v.popular_topics.clone(),
+                                div {
+                                    class: "flex justify-center",
+                                    PopularTopics {
+                                        data: v.popular_topics.clone(),
+                                    }
                                 }
                             }
                         }

@@ -53,8 +53,23 @@ pub fn Topic(cx: Scope) -> Element {
                                 }
                             }
                             div {
-                                RecommendList {
-                                    data: info.recommend.clone(),
+                                if info.recommend.is_empty() {
+                                    rsx! {
+                                        br { }
+                                        div {
+                                            class: "flex justify-center",
+                                            span {
+                                                class: "text-2xl text-gray-400 font-bold",
+                                                "No results about \"@{topic.name}\""
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    rsx! {
+                                        RecommendList {
+                                            data: info.recommend.clone(),
+                                        }
+                                    }
                                 }
                             }
                         }
