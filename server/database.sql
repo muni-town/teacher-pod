@@ -59,3 +59,9 @@ create table if not exists activity (
     target          int             not null,
     curr_time       timestamp       default current_timestamp
 );
+
+create table if not exists favorites (
+    id              bigserial       not null    primary key,
+    account         int             not null,
+    content         int             not null
+);

@@ -5,6 +5,7 @@ pub mod users;
 pub mod account;
 pub mod contents;
 pub mod topics;
+pub mod favorites;
 
 
 #[derive(Serialize, Deserialize)]
