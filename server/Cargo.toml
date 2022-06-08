@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+log = "0.4.17"
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "postgres", "json", "chrono"] }
@@ -17,3 +18,4 @@ dotenv = "0.15.0"
 serde_json = "1.0"
 md5 = "0.7.0"
 jsonwebtoken = "8"
+simplelog = "0.12.0"

@@ -46,7 +46,7 @@ pub fn decode(token: &str) -> Option<AuthClaims> {
         &DecodingKey::from_secret(secret.as_bytes()),
         &Validation::default(),
     );
-    if let Err(e) = r {
+    if let Err(_) = r {
         return None;
     }
     Some(r.unwrap().claims)

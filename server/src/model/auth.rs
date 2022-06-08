@@ -8,6 +8,7 @@ pub struct Auth {
     expire: i64,
 }
 
+#[allow(dead_code)]
 impl Auth {
     pub const EXIST_AUTH: &'static str =
         "select 1 from auth where id = $1 and account = $2 and expire = $3 limit 1;";

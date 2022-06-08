@@ -77,7 +77,7 @@ pub async fn login(
 
     if User::check_password(&query.password, &user.password, &user.salt) {
         let now = chrono::Local::now().timestamp();
-        let expire = now + 60 * 60 * 24 * 1;
+        let expire = now + 60 * 60 * 24 * 2;
         let auth_id: String = repeat_with(fastrand::alphanumeric).take(12).collect();
         let token = auth::encode(&AuthClaims {
             exp: expire,
