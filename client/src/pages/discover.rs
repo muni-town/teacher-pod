@@ -48,7 +48,7 @@ pub fn Discover(cx: Scope) -> Element {
                     Card {
                         span {
                             class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
-                            "Recommend Contents"
+                            "Recommend Podcasts"
                         }
                         RecommendList {
                             data: v.recommend.clone(),

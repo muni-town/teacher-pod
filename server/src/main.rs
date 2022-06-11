@@ -3,7 +3,7 @@ mod auth;
 mod error;
 mod model;
 
-use api::{contents::recommend_content, *};
+use api::*;
 
 use axum::{
     http::header::{ACCEPT, AUTHORIZATION},
@@ -47,12 +47,13 @@ async fn main() {
         .route("/login", get(account::login))
         .route("/register", post(account::register))
         .route("/self", get(account::self_info))
+
         .route("/users/:id", get(users::get_user))
-        .route("/contents/", get(recommend_content))
-        .route("/contents/:id", get(contents::get_content))
+
         .route("/topics/", get(topics::popular_topics))
         .route("/topics/recommend", get(topics::topic_recommend))
         .route("/topics/:id", get(topics::get_topic))
+        
         .layer(Extension(pool))
         .layer(
             CorsLayer::new()
