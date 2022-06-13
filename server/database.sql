@@ -4,7 +4,7 @@ create table if not exists auth (
     expire  int             not null
 );
 
-create table if not exists users (
+create table if not exists account (
     id              bigserial       not null    primary key,
     email           varchar(255)    default ''  unique,
     username        varchar(255)    not null,
@@ -19,17 +19,7 @@ create table if not exists users (
 );
 
 -- test data
-insert into users (email, username, password, salt) values ('mrxzx@qq.com', 'mrxiaozhuox', '22b48f7a98d9a8d684c7000dde01ef6e', 'ccIvwLYPegqy');
-
-create table if not exists topics (
-    id      bigserial       not null    primary key,
-    name    varchar(255)    not null,
-    image   varchar(255)    not null
-);
-
-insert into topics (name, image) values ('Technology', 'https://picsum.photos/seed/2/2000/1000');
-insert into topics (name, image) values ('Life', 'https://picsum.photos/seed/3/2000/1000');
-insert into topics (name, image) values ('History', 'https://picsum.photos/seed/5/2000/1000');
+insert into account (email, username, password, salt) values ('mrxzx@qq.com', 'mrxiaozhuox', '22b48f7a98d9a8d684c7000dde01ef6e', 'ccIvwLYPegqy');
 
 create table if not exists config (
     id              bigserial       not null    primary key,
@@ -48,8 +38,8 @@ create table if not exists activity (
     curr_time       timestamp       default current_timestamp
 );
 
-create table if not exists favorites (
+create table if not exists favorite (
     id              bigserial       not null    primary key,
     account         int             not null,
-    content         int             not null
+    podcast         varchar(50)     not null
 );
