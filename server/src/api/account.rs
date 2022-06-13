@@ -9,7 +9,17 @@ use crate::{
     Routers,
 };
 
-use super::JsonApi;
+use super::{block_unlogin, JsonApi};
+
+#[fn_handler]
+async fn current_account(depot: &mut Depot, resp: &mut Response) -> ApiResult {
+    let user = depot.get::<Account>("user-info");
+    if user.is_none() {
+        return Err(Error::Unauthorized);
+    }
+    resp.success(user.unwrap());
+    Ok(())
+}
 
 #[fn_handler]
 async fn login(req: &mut Request, resp: &mut Response) -> ApiResult {
@@ -52,6 +62,12 @@ async fn login(req: &mut Request, resp: &mut Response) -> ApiResult {
 pub struct AccountApi;
 impl Routers for AccountApi {
     fn build() -> Vec<salvo::Router> {
-        vec![Router::new().path("/login").handle(login)]
+        vec![
+            Router::new().path("/login").handle(login),
+            Router::new()
+                .path("self")
+                .hoop(block_unlogin)
+                .handle(current_account),
+        ]
     }
 }

@@ -50,12 +50,13 @@ pub struct PlayerBoxStatus {
 }
 
 #[derive(Deserialize, Serialize, Clone)]
-pub struct OperResult {
-    pub status: String,
+pub struct ApiData<T: Serialize + Clone> {
+    pub code: i16,
+    pub data: T,
     pub message: String
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct AuthInfo {
     pub token: String,
     pub expire: i64,

@@ -13,7 +13,7 @@ pub struct Auth {
 impl Auth {
     pub async fn insert_auth_info(id: &str, account: i64, expire: i64) -> Result<(), sqlx::Error> {
         let pool = get_postgres();
-        
+
         // delete overdue data
         let _ = sqlx::query(
             r#"delete from auth where id in (
@@ -21,7 +21,8 @@ impl Auth {
             ) and (select count(*) from auth where account = $1) >= 5;"#,
         )
         .bind(account)
-        .execute(pool).await?;
+        .execute(pool)
+        .await?;
 
         // insert new auth token
         let _ = sqlx::query("insert into auth (id, account, expire) values ($1, $2, $3);")
@@ -31,5 +32,18 @@ impl Auth {
             .execute(pool)
             .await?;
         Ok(())
+    }
+
+    pub async fn check_auth_info(id: &str, account: i64) -> bool {
+        let r = sqlx::query_as::<_, Auth>("select * from auth where id = $1 and account = $2;")
+            .bind(id)
+            .bind(account)
+            .fetch_one(get_postgres())
+            .await;
+        if r.is_err() {
+            false
+        } else {
+            true
+        }
     }
 }

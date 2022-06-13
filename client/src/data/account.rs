@@ -1,7 +1,7 @@
 use crate::hooks::use_storage;
 
 use super::{
-    model::{AuthInfo, OperResult, SimpleUser},
+    model::{AuthInfo, ApiData, SimpleUser},
     request::get,
 };
 
@@ -28,18 +28,18 @@ pub async fn current_user() -> Option<SimpleUser> {
 pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {
     let path = format!("/login?email={email}&password={password}");
     let resp = get(&path).send().await?;
+
+    let data = resp.json::<ApiData<AuthInfo>>().await?;
+
     if resp.status() != 200 {
-        let message = resp.json::<OperResult>().await.unwrap().message;
-        return Err(anyhow::anyhow!(match message.as_str() {
+        return Err(anyhow::anyhow!(match data.message.as_str() {
             "data not found" => "User Info Not Found".to_string(),
-            _ => message,
+            _ => data.message,
         }));
     }
 
-    let resp = resp.json::<AuthInfo>().await?;
-
     let storage = use_storage()?;
-    storage.set_item("auth", &resp.token).unwrap();
+    storage.set_item("auth", &data.data.token).unwrap();
 
     return Ok(());
 }

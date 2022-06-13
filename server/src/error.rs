@@ -8,6 +8,8 @@ use crate::api::JsonApi;
 pub enum Error {
     Database(sqlx::Error),
     QueryNotFound(String),
+    AuthorizationFailed,
+    Unauthorized,
 }
 
 pub type ApiResult = Result<(), Error>;
@@ -21,6 +23,12 @@ impl Writer for Error {
                 let message = format!("query `{}` not found", s);
                 (message, StatusCode::BAD_REQUEST)
             },
+            Error::AuthorizationFailed => {
+                ("account authentication failed".into(), StatusCode::BAD_REQUEST)
+            }
+            Error::Unauthorized => {
+                ("unauthorized".into(), StatusCode::UNAUTHORIZED)
+            }
         };
         res.set_status_error(StatusError::from_code(info.1).unwrap());
         res.api::<String>(

@@ -1,13 +1,18 @@
-mod auth;
-mod models;
-mod task;
 mod api;
+mod auth;
 mod db;
 mod error;
+mod models;
+mod task;
 
 use api::account::AccountApi;
 use db::{get_postgres, init_pg_pool};
-use salvo::{Router, Server, listener::TcpListener};
+use salvo::{
+    extra::cors::CorsHandler,
+    hyper::header::{ACCEPT, AUTHORIZATION},
+    listener::TcpListener,
+    Router, Server,
+};
 use task::schedule_task;
 
 pub trait Routers {
@@ -20,7 +25,15 @@ async fn main() {
     let _ = init_pg_pool().await;
     schedule_task(get_postgres().clone());
 
-    let router = Router::new().append(AccountApi::build());
+    let cors_handler = CorsHandler::builder()
+        .with_allow_any_origin()
+        .with_allow_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+        .with_allow_headers(vec![AUTHORIZATION, ACCEPT])
+        .build();
 
-    Server::new(TcpListener::bind("127.0.0.1:3000")).serve(router).await;
+    let router = Router::with_hoop(cors_handler).append(AccountApi::build());
+
+    Server::new(TcpListener::bind("127.0.0.1:3000"))
+        .serve(router)
+        .await;
 }

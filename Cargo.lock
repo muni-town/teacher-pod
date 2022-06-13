@@ -1845,6 +1845,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5ad37cd73c37566fc38fbca0c6ca0e9c5e3a979b75afd0a22fe09f63884b5a19"
 dependencies = [
  "salvo_core",
+ "salvo_extra",
 ]
 
 [[package]]
@@ -1879,6 +1880,16 @@ dependencies = [
  "textnonce",
  "thiserror",
  "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "salvo_extra"
+version = "0.24.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "43fc01fc51a0424f2997c51a524a06b782593030250c794b5f007036a8a316c4"
+dependencies = [
+ "salvo_core",
  "tracing",
 ]
 
