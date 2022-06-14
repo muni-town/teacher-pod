@@ -10,13 +10,17 @@ use db::{get_postgres, init_pg_pool};
 use salvo::{
     extra::cors::CorsHandler,
     hyper::header::{ACCEPT, AUTHORIZATION},
-    listener::TcpListener,
-    Router, Server,
+    prelude::*,
 };
 use task::schedule_task;
 
 pub trait Routers {
     fn build() -> Vec<Router>;
+}
+
+#[fn_handler]
+async fn all_pass(res: &mut Response) {
+    res.set_status_code(StatusCode::OK);
 }
 
 #[tokio::main]
@@ -31,7 +35,9 @@ async fn main() {
         .with_allow_headers(vec![AUTHORIZATION, ACCEPT])
         .build();
 
-    let router = Router::with_hoop(cors_handler).append(AccountApi::build());
+    let router = Router::with_hoop(cors_handler)
+        .append(AccountApi::build())
+        .push(Router::with_path("<*path>").options(all_pass));
 
     Server::new(TcpListener::bind("127.0.0.1:3000"))
         .serve(router)

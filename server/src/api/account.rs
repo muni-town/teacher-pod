@@ -13,6 +13,7 @@ use super::{block_unlogin, JsonApi};
 
 #[fn_handler]
 async fn current_account(depot: &mut Depot, resp: &mut Response) -> ApiResult {
+
     let user = depot.get::<Account>("user-info");
     if user.is_none() {
         return Err(Error::Unauthorized);
@@ -38,7 +39,7 @@ async fn login(req: &mut Request, resp: &mut Response) -> ApiResult {
 
     let checker = Account::check_password(&password, &user.password, &user.salt);
     if checker {
-        let now = chrono::Local::now().timestamp();
+        let now = chrono::Local::now().timestamp() as i32;
         let expire = now + 60 * 60 * 24 * 2;
         let auth_id: String = repeat_with(fastrand::alphanumeric).take(12).collect();
         let token = auth::encode(&auth::AuthClaims {
@@ -67,7 +68,7 @@ impl Routers for AccountApi {
             Router::new()
                 .path("self")
                 .hoop(block_unlogin)
-                .handle(current_account),
+                .get(current_account),
         ]
     }
 }

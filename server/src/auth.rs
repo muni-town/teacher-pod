@@ -3,10 +3,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AuthClaims {
-    pub exp: i64,
-    pub iat: i64,
+    pub exp: i32,
+    pub iat: i32,
     pub id: String,
-    pub user: i64,
+    pub user: i32,
 }
 
 pub fn encode(claims: &AuthClaims) -> String {

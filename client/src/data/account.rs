@@ -22,7 +22,7 @@ pub async fn current_user() -> Option<SimpleUser> {
     if !resp.ok() {
         return None;
     }
-    Some(resp.json::<SimpleUser>().await.unwrap())
+    Some(resp.json::<ApiData<SimpleUser>>().await.unwrap().data)
 }
 
 pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {

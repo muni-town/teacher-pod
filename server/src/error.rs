@@ -8,7 +8,7 @@ use crate::api::JsonApi;
 pub enum Error {
     Database(sqlx::Error),
     QueryNotFound(String),
-    AuthorizationFailed,
+    AuthorizationFailed(String),
     Unauthorized,
 }
 
@@ -23,8 +23,8 @@ impl Writer for Error {
                 let message = format!("query `{}` not found", s);
                 (message, StatusCode::BAD_REQUEST)
             },
-            Error::AuthorizationFailed => {
-                ("account authentication failed".into(), StatusCode::BAD_REQUEST)
+            Error::AuthorizationFailed(s) => {
+                (format!("account authentication failed: {}", s), StatusCode::BAD_REQUEST)
             }
             Error::Unauthorized => {
                 ("unauthorized".into(), StatusCode::UNAUTHORIZED)

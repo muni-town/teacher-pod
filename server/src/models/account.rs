@@ -5,7 +5,7 @@ use crate::db::get_postgres;
 
 #[derive(FromRow, Serialize, Deserialize)]
 pub struct Account {
-    pub id: i64,
+    pub id: i32,
     pub username: String,
     pub gender: String,
     pub email: String,
@@ -20,7 +20,7 @@ pub struct Account {
 
 #[allow(dead_code)]
 impl Account {
-    pub async fn query_from_id(id: i64) -> Result<Self, sqlx::Error> {
+    pub async fn query_from_id(id: i32) -> Result<Self, sqlx::Error> {
         Ok(
             sqlx::query_as::<_, Account>("select * from account where id = $1;")
                 .bind(id)
