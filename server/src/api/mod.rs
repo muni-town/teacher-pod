@@ -1,17 +1,14 @@
-use salvo::{
-    http::HeaderValue,
-    hyper::header::CONTENT_TYPE,
-    prelude::*,
-};
+use salvo::{http::HeaderValue, hyper::header::CONTENT_TYPE, prelude::*};
 use serde::Serialize;
 
 use crate::{
     auth,
     error::{ApiResult, Error},
-    models::{account::Account, auth::Auth},
+    models::account::{Account, Auth},
 };
 
 pub mod account;
+pub mod podcast;
 
 #[fn_handler]
 pub async fn block_unlogin(

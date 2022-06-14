@@ -5,7 +5,9 @@ mod error;
 mod models;
 mod task;
 
-use api::account::AccountApi;
+mod listennotes;
+
+use api::{account::AccountApi, podcast::PodcstApi};
 use db::{get_postgres, init_pg_pool};
 use salvo::{
     extra::cors::CorsHandler,
@@ -13,7 +15,6 @@ use salvo::{
     prelude::*,
 };
 use task::schedule_task;
-use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 pub trait Routers {
     fn build() -> Vec<Router>;
@@ -26,11 +27,31 @@ async fn all_pass(res: &mut Response) {
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::registry().with(fmt::layer()).init();
+    fern::Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "{}[{}][{}] {}",
+                chrono::Local::now().format("[%Y-%m-%d][%H:%M:%S]"),
+                record.target(),
+                record.level(),
+                message
+            ))
+        })
+        .level(log::LevelFilter::Debug)
+        .level_for("reqwest", log::LevelFilter::Warn)
+        .level_for("sqlx", log::LevelFilter::Warn)
+        .chain(std::io::stdout())
+        .apply()
+        .unwrap();
 
     dotenv::dotenv().ok();
     let _ = init_pg_pool().await;
     schedule_task(get_postgres().clone());
+
+    let mock_info = std::env::var("MOCK_API").unwrap();
+    if mock_info.to_lowercase() == "true" {
+        log::warn!("currently using mock api data.");
+    }
 
     let cors_handler = CorsHandler::builder()
         .with_allow_any_origin()
@@ -40,6 +61,7 @@ async fn main() {
 
     let router = Router::with_hoop(cors_handler)
         .append(AccountApi::build())
+        .append(PodcstApi::build())
         .push(Router::with_path("<*path>").options(all_pass));
 
     Server::new(TcpListener::bind("127.0.0.1:3000"))

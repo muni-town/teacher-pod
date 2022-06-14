@@ -17,8 +17,8 @@ sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "postgres", "json"
 dotenv = "0.15.0"
 chrono =  { version = "0.4.15", features = ["serde"] }
 
-tracing = "0.1"
-tracing-subscriber = "0.3"
+log = "0.4.17"
+fern = "0.6.1"
 
 md5 = "0.7.0"
 fastrand = "1.7.0"

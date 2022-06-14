@@ -5,7 +5,7 @@ use salvo::prelude::*;
 use crate::{
     auth,
     error::{ApiResult, Error},
-    models::{account::Account, auth::Auth},
+    models::account::{Account, Auth},
     Routers,
 };
 
@@ -13,7 +13,6 @@ use super::{block_unlogin, JsonApi};
 
 #[fn_handler]
 async fn current_account(depot: &mut Depot, resp: &mut Response) -> ApiResult {
-
     let user = depot.get::<Account>("user-info");
     if user.is_none() {
         return Err(Error::Unauthorized);
