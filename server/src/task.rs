@@ -10,7 +10,7 @@ pub fn schedule_task(task_pool: Pool<Postgres>) {
             );
             let r = sqlx::query(&sql).execute(&pool).await;
             if let Err(e) = r {
-                log::warn!("clean auth data failed: {}", e.to_string());
+                tracing::warn!("clean auth data failed: {}", e.to_string());
             }
             // two day task
             tokio::time::sleep(std::time::Duration::from_secs(60 * 60 * 24 * 5)).await;

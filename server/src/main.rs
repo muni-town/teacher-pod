@@ -13,6 +13,7 @@ use salvo::{
     prelude::*,
 };
 use task::schedule_task;
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 pub trait Routers {
     fn build() -> Vec<Router>;
@@ -25,6 +26,8 @@ async fn all_pass(res: &mut Response) {
 
 #[tokio::main]
 async fn main() {
+    tracing_subscriber::registry().with(fmt::layer()).init();
+
     dotenv::dotenv().ok();
     let _ = init_pg_pool().await;
     schedule_task(get_postgres().clone());
