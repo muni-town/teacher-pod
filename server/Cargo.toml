@@ -1,5 +1,5 @@
 [package]
-name = "server"
+name = "tp_server"
 version = "0.1.0"
 edition = "2021"
 
@@ -25,3 +25,5 @@ fastrand = "1.7.0"
 jsonwebtoken = "8"
 
 podcast-api = "^1.0.1"
+
+tp_models = { path = "../models", features = ["server"] }

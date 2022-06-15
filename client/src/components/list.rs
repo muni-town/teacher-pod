@@ -1,9 +1,9 @@
 use dioxus::prelude::*;
+use tp_models::account::Account;
 
-use crate::data::model::SimpleUser;
 
 #[inline_props]
-pub fn SimpleUserList(cx: Scope, data: Vec<SimpleUser>) -> Element {
+pub fn SimpleUserList(cx: Scope, data: Vec<Account>) -> Element {
     cx.render(rsx! {
         ul {
             class: "divide-y divide-gray-200 dark:divide-gray-700",

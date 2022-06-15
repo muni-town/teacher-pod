@@ -6,6 +6,7 @@ use crate::{
     auth,
     error::{ApiResult, Error},
     models::account::{Account, Auth},
+    models::account::{AccountFn, AuthFn},
     Routers,
 };
 

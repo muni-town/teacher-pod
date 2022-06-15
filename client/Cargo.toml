@@ -1,5 +1,5 @@
 [package]
-name = "client"
+name = "tp_client"
 version = "0.1.0"
 edition = "2021"
 
@@ -19,3 +19,5 @@ anyhow = "1.0.57"
 chrono = "0.4"
 url = "2.2.2"
 serde_json = "1.0"
+
+tp_models = { path = "../models", default-features = false, features = ["client"] }

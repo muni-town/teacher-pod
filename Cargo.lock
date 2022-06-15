@@ -214,25 +214,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "client"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "dioxus",
- "dioxus-heroicons",
- "dioxus-toast",
- "gloo",
- "js-sys",
- "log",
- "serde",
- "serde_json",
- "url",
- "wasm-logger",
- "web-sys",
-]
-
-[[package]]
 name = "console_error_panic_hook"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2031,26 +2012,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "server"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "dotenv",
- "fastrand",
- "fern",
- "jsonwebtoken",
- "log",
- "md5",
- "once_cell",
- "podcast-api",
- "salvo",
- "serde",
- "serde_json",
- "sqlx",
- "tokio",
-]
-
-[[package]]
 name = "sha-1"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2471,6 +2432,57 @@ name = "tower-service"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "360dfd1d6d30e05fda32ace2c8c70e9c0a9da713275777f5a4dbb8a1893930c6"
+
+[[package]]
+name = "tp_client"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "dioxus",
+ "dioxus-heroicons",
+ "dioxus-toast",
+ "gloo",
+ "js-sys",
+ "log",
+ "serde",
+ "serde_json",
+ "tp_models",
+ "url",
+ "wasm-logger",
+ "web-sys",
+]
+
+[[package]]
+name = "tp_models"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+ "sqlx",
+]
+
+[[package]]
+name = "tp_server"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "dotenv",
+ "fastrand",
+ "fern",
+ "jsonwebtoken",
+ "log",
+ "md5",
+ "once_cell",
+ "podcast-api",
+ "salvo",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tp_models",
+]
 
 [[package]]
 name = "tracing"

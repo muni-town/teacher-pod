@@ -17,7 +17,7 @@ pub fn Discover(cx: Scope) -> Element {
 
     let request_data: &UseFuture<RequestData> = use_future(&cx, (), |_| {
         async move {
-            let res = request::get("/contents/").send().await;
+            let res = request::get("/podcasts/").send().await;
             let res = if let Ok(resp) = res {
                 resp
             } else {
@@ -25,17 +25,17 @@ pub fn Discover(cx: Scope) -> Element {
             };
             let recommend = res.json::<Vec<SimpleContent>>().await.unwrap_or_default();
             
-            let res = request::get("/topics/").send().await;
-            let res = if let Ok(resp) = res {
-                resp
-            } else {
-                return RequestData { recommend: vec![], popular_topics: vec![] };
-            };
-            let popular_topics = res.json::<Vec<Topic>>().await.unwrap_or_default();
+            // let res = request::get("/topics/").send().await;
+            // let res = if let Ok(resp) = res {
+            //     resp
+            // } else {
+            //     return RequestData { recommend: vec![], popular_topics: vec![] };
+            // };
+            // let popular_topics = res.json::<Vec<Topic>>().await.unwrap_or_default();
             
             RequestData {
                 recommend,
-                popular_topics
+                popular_topics: vec![],
             }
         }
     });

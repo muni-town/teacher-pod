@@ -1,16 +1,16 @@
+use serde::{Serialize, Deserialize};
+use tp_models::{account::Account, ApiData};
+
 use crate::hooks::use_storage;
 
-use super::{
-    model::{AuthInfo, ApiData, SimpleUser},
-    request::get,
-};
+use super::request::get;
 
 pub fn token() -> String {
     let storage = use_storage().unwrap();
     storage.get_item("auth").unwrap().unwrap_or_default()
 }
 
-pub async fn current_user() -> Option<SimpleUser> {
+pub async fn current_user() -> Option<Account> {
     let resp = get("/self")
         .header("Authorization", &format!("Bearer {}", token()))
         .send()
@@ -22,7 +22,13 @@ pub async fn current_user() -> Option<SimpleUser> {
     if !resp.ok() {
         return None;
     }
-    Some(resp.json::<ApiData<SimpleUser>>().await.unwrap().data)
+    Some(resp.json::<ApiData<Account>>().await.unwrap().data)
+}
+
+#[derive(Serialize, Deserialize)]
+struct AuthInfo {
+    expire: i64,
+    token: String,
 }
 
 pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {

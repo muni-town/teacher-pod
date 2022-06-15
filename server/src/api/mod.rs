@@ -4,7 +4,7 @@ use serde::Serialize;
 use crate::{
     auth,
     error::{ApiResult, Error},
-    models::account::{Account, Auth},
+    models::account::{Account, AccountFn, Auth, AuthFn},
 };
 
 pub mod account;
