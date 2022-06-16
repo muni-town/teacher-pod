@@ -1,13 +1,29 @@
 use dioxus::{prelude::*, web::use_eval};
 use dioxus_heroicons::{Icon, solid::Shape};
+use serde::{Serialize, Deserialize};
+use tp_models::{playlist::PlayList, podcast::Podcast};
 
-use crate::{PLAYER_STATUS, data::model::Content};
+use crate::PLAYER_STATUS;
+
+#[derive(Serialize, Deserialize)]
+pub struct PlayBoxInfo {
+    pub playlist: Option<Podcast>,
+    pub current: usize,
+    pub display: bool,
+    pub pause: bool,
+}
 
 pub fn PlayBox(cx: Scope) -> Element {
 
-    let current_content: &UseState<Option<Content>> = use_state(&cx, || None);
+    let current_content: &UseState<usize> = use_state(&cx, || usize::MAX);
     let status = use_atom_ref(&cx, PLAYER_STATUS);
-    let status_content = status.read().current.clone();
+    let status_content = status.read().current;
+
+    let playlist = if status.read().playlist.is_none() {
+        vec![]
+    } else {
+        status.read().playlist.unwrap().playlists
+    };
 
     // use this check to reload the play box source
     if &status_content != current_content.get() {
@@ -17,7 +33,7 @@ pub fn PlayBox(cx: Scope) -> Element {
         });
     }
 
-    if status.read().current.is_none() {
+    if playlist.get(status.read().current).is_none() {
         return cx.render(rsx! {
             div {
                 class: "fixed bottom-12 left-2 rounded-full w-10 h-10 
@@ -33,7 +49,7 @@ pub fn PlayBox(cx: Scope) -> Element {
         });
     }
 
-    let info = status.read().current.clone().unwrap();
+    let info = playlist[status.read().current];
 
     let player_hidden = if !status.read().display {
         "hidden"
@@ -71,7 +87,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                     class: "flex-initial w-16",
                     img {
                         class: "h-full rounded",
-                        src: "{info.cover_image}",
+                        src: "{info.thumbnail}",
                     }
                 }
                 div {

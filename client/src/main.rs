@@ -6,7 +6,7 @@ mod pages;
 mod mode;
 mod data;
 
-use data::model::PlayerBoxStatus;
+use components::modal::PlayBoxInfo;
 use dioxus::prelude::*;
 use dioxus_heroicons::{Icon, solid::Shape};
 use mode::is_dark;
@@ -20,11 +20,12 @@ static DARK_MODE: dioxus::fermi::Atom<bool> = |_| {
     dark
 };
 
-static PLAYER_STATUS: dioxus::fermi::AtomRef<PlayerBoxStatus> = |_| { 
-    PlayerBoxStatus {
+static PLAYER_STATUS: dioxus::fermi::AtomRef<PlayBoxInfo> = |_| { 
+    PlayBoxInfo {
         display: true,
         pause: true,
-        current: None,
+        current: usize::MAX,
+        playlist: None,
     }
 };
 
