@@ -1,7 +1,7 @@
 use dioxus::{prelude::*, web::use_eval};
 use dioxus_heroicons::{Icon, solid::Shape};
 use serde::{Serialize, Deserialize};
-use tp_models::{playlist::PlayList, podcast::Podcast};
+use tp_models::podcast::Podcast;
 
 use crate::PLAYER_STATUS;
 
@@ -22,7 +22,7 @@ pub fn PlayBox(cx: Scope) -> Element {
     let playlist = if status.read().playlist.is_none() {
         vec![]
     } else {
-        status.read().playlist.unwrap().playlists
+        status.read().playlist.unwrap().episodes
     };
 
     // use this check to reload the play box source
@@ -147,7 +147,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                             },
                             source {
                                 id: "audio-source",
-                                src: "{info.source}",
+                                src: "{info.audio}",
                                 "type": "audio/mp3"
                             }
                         }

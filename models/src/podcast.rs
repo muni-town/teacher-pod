@@ -17,6 +17,7 @@ pub struct Podcast {
     pub explicit_content: bool,
     pub latest_episode_id: String,
     pub listen_score_global_rank: String,
+    pub episodes: Vec<Episode>,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
@@ -30,7 +31,7 @@ pub struct Episode {
     pub description: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Default, PartialEq, Clone)]
 pub struct BestPodcasts {
     pub id: i32,
     pub name: String,
