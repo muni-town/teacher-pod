@@ -44,8 +44,14 @@ pub fn Discover(cx: Scope) -> Element {
                             class: "text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100",
                             "Recommend Podcasts"
                         }
-                        RecommendList {
-                            data: v.recommend.clone(),
+                        if v.recommend.is_some() {
+                            rsx! {
+                                RecommendList {
+                                    data: v.recommend.clone().unwrap(),
+                                }
+                            }
+                        } else {
+                            rsx! { div { "Not Found" } }
                         }
                     }
                     br {}

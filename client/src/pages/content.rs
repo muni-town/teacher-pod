@@ -1,19 +1,15 @@
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
+use tp_models::{account::Account, podcast::Podcast};
 
 use crate::{
     components::card::Card,
-    data::{
-        account::current_user,
-        model::{self, Content, SimpleUser, Topic},
-        request,
-    },
+    data::{account::current_user, request},
     PLAYER_STATUS,
 };
 
 struct ContentInfo {
-    content: Content,
-    topic: Topic,
+    content: Podcast,
 }
 
 pub fn Content(cx: Scope) -> Element {
@@ -22,22 +18,16 @@ pub fn Content(cx: Scope) -> Element {
     let id = route.segment("id").unwrap().to_string();
 
     let info: &UseFuture<Option<ContentInfo>> = use_future(&cx, (), |_| async move {
-        let res = request::get(&format!("/contents/{}", id))
+        let res = request::get(&format!("/podcast/{}", id))
             .send()
             .await
             .ok()?;
-        let content = res.json::<model::Content>().await.ok()?;
+        let content = res.json::<Podcast>().await.ok()?;
 
-        let res = request::get(&format!("/topics/{}", content.topic))
-            .send()
-            .await
-            .ok()?;
-        let topic = res.json::<Topic>().await.ok()?;
-
-        Some(ContentInfo { content, topic })
+        Some(ContentInfo { content })
     });
 
-    let user_info: &UseFuture<Option<SimpleUser>> =
+    let user_info: &UseFuture<Option<Account>> =
         use_future(&cx, (), |_| async move { current_user().await });
 
     let player_box = use_atom_ref(&cx, PLAYER_STATUS);
@@ -52,28 +42,12 @@ pub fn Content(cx: Scope) -> Element {
                 description
             };
 
-            let button_list: Element = {
-                // check user login
-                let v = user_info.value();
-                if v.is_some()
-                    && v.unwrap().is_some()
-                    && v.unwrap().clone().unwrap().id == content.author.id
-                {
-                    cx.render(rsx! {
-                        button {
-                            class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-                            "Edit"
-                        }
-                    })
-                } else {
-                    cx.render(rsx! {
-                        button {
-                            class: "inline-block px-6 py-2 border-2 border-yellow-500 text-yellow-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-                            "Report"
-                        }
-                    })
+            let button_list: Element = cx.render(rsx! {
+                button {
+                    class: "inline-block px-6 py-2 border-2 border-yellow-500 text-yellow-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+                    "Report"
                 }
-            };
+            });
 
             cx.render(rsx! {
                 div {
@@ -85,7 +59,7 @@ pub fn Content(cx: Scope) -> Element {
                             class: "col-span-1",
                             img {
                                 class: "w-full h-auto rounded-md",
-                                src: "{content.cover_image}"
+                                src: "{content.thumbnail}"
                             }
                         }
                         div {
@@ -98,10 +72,10 @@ pub fn Content(cx: Scope) -> Element {
                                 class: "text-lg text-gray-400",
                                 Link {
                                     class: "hover:text-blue-500",
-                                    to: "/user/{content.author.id}",
-                                    "{content.author.username}"
+                                    to: "/user/1",
+                                    "author"
                                 }
-                                " | {content.up_date}"
+                                " | 33333"
                             }
                             p {
                                 class: "font-semibold text-gray-500 dark:text-gray-300 mt-4",
@@ -112,7 +86,7 @@ pub fn Content(cx: Scope) -> Element {
                                 button {
                                     class: "inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
                                     onclick: |_| {
-                                        player_box.write().current = Some(content.clone());
+                                        // player_box.write().current = Some(content.clone());
                                     },
                                     Icon {
                                         icon: Shape::Play
@@ -134,8 +108,8 @@ pub fn Content(cx: Scope) -> Element {
                                     strong { "Topic : " }
                                     Link {
                                         class: "hover:text-blue-500 underline",
-                                        to: "/topic/{info.topic.id}",
-                                        "{info.topic.name}"
+                                        to: "/topic/1",
+                                        "Hello"
                                     }
                                 }
                                 li {
@@ -143,14 +117,14 @@ pub fn Content(cx: Scope) -> Element {
                                     strong { "Publish User : " }
                                     Link {
                                         class: "hover:text-blue-500 underline"
-                                        to: "/user/{content.author.id}",
-                                        "{content.author.username}"
+                                        to: "/user/1",
+                                        "213"
                                     }
                                 }
                                 li {
                                     class: "relative -mb-px block border p-4 border-grey dark:text-white",
                                     strong { "Publish Date : " }
-                                    "{content.up_date}"
+                                    "32132"
                                 }
                                 li {
                                     class: "relative -mb-px block border p-4 border-grey dark:text-white",

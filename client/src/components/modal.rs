@@ -22,7 +22,7 @@ pub fn PlayBox(cx: Scope) -> Element {
     let playlist = if status.read().playlist.is_none() {
         vec![]
     } else {
-        status.read().playlist.unwrap().episodes
+        status.read().playlist.clone().unwrap().episodes
     };
 
     // use this check to reload the play box source
@@ -49,7 +49,7 @@ pub fn PlayBox(cx: Scope) -> Element {
         });
     }
 
-    let info = playlist[status.read().current];
+    let info = playlist.get(status.read().current).unwrap();
 
     let player_hidden = if !status.read().display {
         "hidden"

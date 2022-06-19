@@ -1,9 +1,10 @@
 use dioxus::prelude::*;
 use dioxus_heroicons::{Icon, solid::Shape};
+use tp_models::account::Account;
 
 use crate::{
     components::card::Card,
-    data::{model::SimpleUser, request, account::current_user},
+    data::{request, account::current_user},
 };
 
 pub fn User(cx: Scope) -> Element {
@@ -12,7 +13,7 @@ pub fn User(cx: Scope) -> Element {
 
     let current_user_page = use_state(&cx, || false);
 
-    let user_info: &UseFuture<Option<SimpleUser>> = use_future(&cx, (), |_| {
+    let user_info: &UseFuture<Option<Account>> = use_future(&cx, (), |_| {
         let current_user_page = current_user_page.clone();
         async move {
         
@@ -25,7 +26,7 @@ pub fn User(cx: Scope) -> Element {
                 .send()
                 .await
                 .ok()?;
-            resp.json::<SimpleUser>().await.ok()
+            resp.json::<Account>().await.ok()
         }
     });
 

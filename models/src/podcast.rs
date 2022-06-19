@@ -17,7 +17,12 @@ pub struct Podcast {
     pub explicit_content: bool,
     pub latest_episode_id: String,
     pub listen_score_global_rank: String,
+    #[serde(default = "default_episodes")]
     pub episodes: Vec<Episode>,
+}
+
+fn default_episodes() -> Vec<Episode> {
+    vec![]
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]

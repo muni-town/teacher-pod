@@ -58,7 +58,6 @@ fn app(cx: Scope) -> Element {
 
             Route { to: "/user/:userid", pages::user::User {} }
             Route { to: "/conent/:id", pages::content::Content {} }
-            Route { to: "/topic/:id", pages::topic::Topic {} }
 
             Route { to: "", pages::error::_404 {} }
             Footer {}
