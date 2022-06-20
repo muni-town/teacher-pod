@@ -27,10 +27,10 @@ pub fn Content(cx: Scope) -> Element {
         Some(ContentInfo { content })
     });
 
-    let user_info: &UseFuture<Option<Account>> =
-        use_future(&cx, (), |_| async move { current_user().await });
+    // let user_info: &UseFuture<Option<Account>> =
+    //     use_future(&cx, (), |_| async move { current_user().await });
 
-    let player_box = use_atom_ref(&cx, PLAYER_STATUS);
+    // let player_box = use_atom_ref(&cx, PLAYER_STATUS);
 
     match info.value() {
         Some(Some(info)) => {
