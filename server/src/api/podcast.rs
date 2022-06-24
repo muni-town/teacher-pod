@@ -1,15 +1,17 @@
 use crate::{
     error::{ApiResult, Error},
-    models::podcast::{BestPodcasts, Podcast},
+    models::podcast::{BestPodcastsQuery, PodcastQuery},
     Routers,
 };
 use salvo::prelude::*;
+use tp_models::podcast::{BestPodcasts, Podcast};
 
 use super::JsonApi;
 
 #[fn_handler]
-async fn get_podcast(res: &mut Response) -> ApiResult {
-    let info = Podcast::fetch_by_id("4d3fe717742d4963a85562e9f84d8c79").await;
+async fn get_podcast(req: &mut Request, res: &mut Response) -> ApiResult {
+    let pid = req.param::<String>("id").unwrap_or_default();
+    let info = Podcast::fetch_by_id(&pid).await;
     if info.is_none() {
         return Err(Error::DataNotFound);
     }

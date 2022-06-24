@@ -34,6 +34,7 @@ pub struct Episode {
     pub title: String,
     pub thumbnail: String,
     pub description: String,
+    pub audio_length_sec: u32,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, PartialEq, Clone)]

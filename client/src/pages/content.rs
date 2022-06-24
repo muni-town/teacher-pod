@@ -1,13 +1,10 @@
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
-use tp_models::{account::Account, podcast::Podcast};
+use tp_models::{podcast::Podcast, ApiData};
 
-use crate::{
-    components::card::Card,
-    data::{account::current_user, request},
-    PLAYER_STATUS,
-};
+use crate::{components::card::{Card, EpisodeList}, data::request};
 
+#[derive(Debug)]
 struct ContentInfo {
     content: Podcast,
 }
@@ -18,14 +15,17 @@ pub fn Content(cx: Scope) -> Element {
     let id = route.segment("id").unwrap().to_string();
 
     let info: &UseFuture<Option<ContentInfo>> = use_future(&cx, (), |_| async move {
-        let res = request::get(&format!("/podcast/{}", id))
+        let res = request::get(&format!("/podcasts/{}", id))
             .send()
             .await
             .ok()?;
-        let content = res.json::<Podcast>().await.ok()?;
+        let content = res.json::<ApiData<Podcast>>().await.ok()?;
+        let content = content.data;
 
         Some(ContentInfo { content })
     });
+
+    log::info!("{:?}", info.value());
 
     // let user_info: &UseFuture<Option<Account>> =
     //     use_future(&cx, (), |_| async move { current_user().await });
@@ -141,6 +141,10 @@ pub fn Content(cx: Scope) -> Element {
                             }
                         }
                     }
+                }
+                br { }
+                EpisodeList {
+                    data: content.episodes.clone()
                 }
                 }
             })

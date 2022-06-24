@@ -1,5 +1,6 @@
 use dioxus::prelude::*;
-use tp_models::podcast::BestPodcasts;
+use dioxus_heroicons::{solid::Shape, Icon};
+use tp_models::podcast::{BestPodcasts, Episode};
 
 #[inline_props]
 pub fn Card<'a>(cx: Scope<'a>, children: Element<'a>) -> Element {
@@ -16,7 +17,7 @@ pub fn Card<'a>(cx: Scope<'a>, children: Element<'a>) -> Element {
 
 #[derive(Props, PartialEq)]
 pub struct RecommendListProps {
-    data: BestPodcasts
+    data: BestPodcasts,
 }
 
 pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
@@ -41,7 +42,49 @@ pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
                         }
                         p {
                             class: "text-sm text-gray-500",
-                            "125 | YuKun Liu"
+                            "{item.total_episodes}"
+                        }
+                    }
+                }
+            })
+        }
+    })
+}
+
+#[inline_props]
+pub fn EpisodeList(cx: Scope, data: Vec<Episode>) -> Element {
+    cx.render(rsx! {
+        Card {
+            data.iter().map(|item| {
+                let min: f32 = (item.audio_length_sec as f32) / 60_f32;
+                rsx! {
+                    a {
+                        class: "
+                        block
+                        px-6
+                        py-4
+                        border-b border-gray-200
+                        w-full
+                        text-dark
+                        hover:bg-gray-100
+                        hover:text-gray-500
+                        dark:text-white
+                        dark:hover:bg-gray-700
+                        dark:hover:text-gray-100
+                        cursor-pointer
+                        ",
+                        href: "/12312",
+                        Icon {
+                            class: "float-left text-gray-600",
+                            size: 24,
+                            icon: Shape::Play
+                        }
+                        strong {
+                            "{item.title}"
+                        }
+                        span {
+                            class: "float-right text-gray-400",
+                            "{min:.1} min"
                         }
                     }
                 }
