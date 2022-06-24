@@ -142,6 +142,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                         //     value: "0"
                         // }
                         audio {
+                            id: "podcast-player",
                             class: "w-full h-8",
                             controls: "controls",
                             "controlsList": "nodownload",
