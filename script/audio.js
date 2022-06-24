@@ -1,5 +1,5 @@
 var audio = document.getElementById("podcast-player");
-auido.loop = false;
+audio.loop = false;
 audio.addEventListener('ended', function() {
     alert("ended");
 });
