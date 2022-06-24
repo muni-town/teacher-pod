@@ -158,6 +158,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                                 "type": "audio/mp3"
                             }
                         }
+                        script { src: "/script/audio.js" }
                     }
                 }
             }
