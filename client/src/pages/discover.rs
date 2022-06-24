@@ -4,7 +4,7 @@ use crate::{
 };
 use dioxus::prelude::*;
 use serde::Deserialize;
-use tp_models::podcast::BestPodcasts;
+use tp_models::{podcast::BestPodcasts, ApiData};
 
 #[derive(Deserialize, Debug)]
 struct RequestData {
@@ -20,8 +20,11 @@ pub fn Discover(cx: Scope) -> Element {
             } else {
                 return RequestData { recommend: None };
             };
-            log::info!("{}", res.text().await.unwrap());
-            let recommend = res.json::<BestPodcasts>().await.unwrap_or_default();
+            let recommend = res
+                .json::<ApiData<BestPodcasts>>()
+                .await
+                .unwrap_or_default();
+            let recommend = recommend.data;
             // let res = request::get("/topics/").send().await;
             // let res = if let Ok(resp) = res {
             //     resp
@@ -30,10 +33,11 @@ pub fn Discover(cx: Scope) -> Element {
             // };
             // let popular_topics = res.json::<Vec<Topic>>().await.unwrap_or_default();
 
-            RequestData { recommend: Some(recommend) }
+            RequestData {
+                recommend: Some(recommend),
+            }
         }
     });
-    log::info!("{:?}", request_data.value());
 
     match request_data.value() {
         Some(v) => {
