@@ -1,6 +1,8 @@
 use dioxus::prelude::*;
 use dioxus_heroicons::{solid::Shape, Icon};
-use tp_models::podcast::{BestPodcasts, Episode};
+use tp_models::podcast::{BestPodcasts, Podcast};
+
+use crate::PLAYER_STATUS;
 
 #[inline_props]
 pub fn Card<'a>(cx: Scope<'a>, children: Element<'a>) -> Element {
@@ -52,10 +54,15 @@ pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
 }
 
 #[inline_props]
-pub fn EpisodeList(cx: Scope, data: Vec<Episode>) -> Element {
+pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
+
+    let playbox = use_atom_ref(&cx, PLAYER_STATUS);
+
+    let episodes = data.episodes.clone();
+
     cx.render(rsx! {
         Card {
-            data.iter().map(|item| {
+            episodes.iter().enumerate().map(|(index, item)| {
                 let min: f32 = (item.audio_length_sec as f32) / 60_f32;
                 rsx! {
                     a {
@@ -73,7 +80,14 @@ pub fn EpisodeList(cx: Scope, data: Vec<Episode>) -> Element {
                         dark:hover:text-gray-100
                         cursor-pointer
                         ",
-                        href: "/12312",
+                        href: "#",
+                        key: "{data.id}@{index}",
+                        onclick: move |_| {
+                            let current = index;
+                            playbox.write().playlist = Some(data.clone());
+                            playbox.write().current = current;
+                            playbox.write().display = true;
+                        },
                         Icon {
                             class: "float-left text-gray-600",
                             size: 24,
@@ -84,7 +98,7 @@ pub fn EpisodeList(cx: Scope, data: Vec<Episode>) -> Element {
                         }
                         span {
                             class: "float-right text-gray-400",
-                            "{min:.1} min"
+                            "{min:.2} min"
                         }
                     }
                 }

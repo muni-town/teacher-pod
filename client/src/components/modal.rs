@@ -60,6 +60,11 @@ pub fn PlayBox(cx: Scope) -> Element {
 
     let eval_script = use_eval::<&str>(&cx);
 
+    let simple_title = if info.title.len() > 38 {
+        format!("{} ...", &info.title[0..38])
+    } else {
+        info.title.to_string()
+    };
 
     cx.render(rsx! {
         div {
@@ -95,7 +100,8 @@ pub fn PlayBox(cx: Scope) -> Element {
                     div {
                         span {
                             class: "text-black dark:text-white",
-                            "{info.title}"
+                            title: "{info.title}",
+                            "{simple_title}"
                         }
                         span {
                             class: "absolute right-0",

@@ -144,7 +144,7 @@ pub fn Content(cx: Scope) -> Element {
                 }
                 br { }
                 EpisodeList {
-                    data: content.episodes.clone()
+                    data: content.clone()
                 }
                 }
             })
