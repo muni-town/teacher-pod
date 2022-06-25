@@ -80,7 +80,7 @@ pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
                         dark:hover:text-gray-100
                         cursor-pointer
                         ",
-                        href: "#",
+                        href: "javascript:;",
                         key: "{data.id}@{index}",
                         onclick: move |_| {
                             let current = index;
