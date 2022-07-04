@@ -42,7 +42,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                     class: "justify-center w-full h-full text-black dark:text-white hover:text-white dark:hover:text-black",
                     Icon {
                         class: "h-full w-full",
-                        icon: fa_solid_icons::FaPlay,
+                        icon: fa_solid_icons::FaCirclePlay,
                     }
                 }
             }
@@ -74,11 +74,10 @@ pub fn PlayBox(cx: Scope) -> Element {
                 class: "justify-center w-full h-full text-black dark:text-white hover:text-white dark:hover:text-black",
                 onclick: move |_| {
                     status.write().display = true;
-                    eval_script("alert('1');");
                 },
                 Icon {
-                    class: "",
-                    icon: fa_solid_icons::FaPlay,
+                    class: "w-full h-full",
+                    icon: fa_solid_icons::FaCirclePlay,
                 }
             }
         }
