@@ -5,3 +5,6 @@ members = [
     "client",
     "models",
 ]
+
+[patch.crates-io]
+dioxus = { git = "https://github.com/DioxusLabs/dioxus" }

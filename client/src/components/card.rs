@@ -98,7 +98,7 @@ pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
                         }
                         span {
                             class: "float-right text-gray-400",
-                            "{min:.2} min"
+                            "{min:.2} minss"
                         }
                     }
                 }
