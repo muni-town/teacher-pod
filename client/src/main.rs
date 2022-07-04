@@ -8,7 +8,7 @@ mod data;
 
 use components::modal::PlayBoxInfo;
 use dioxus::prelude::*;
-use dioxus_heroicons::{Icon, solid::Shape};
+use dioxus_free_icons::{Icon, icons::fa_brands_icons::FaGithub};
 use mode::is_dark;
 use dioxus_toast::{ToastFrame, ToastManager};
 
@@ -82,7 +82,7 @@ fn Footer(cx: Scope) -> Element {
                         class: "w-6 mx-1 text-black dark:text-white",
                         href: "https://github.com/commune-org",
                         Icon {
-                            icon: Shape::GlobeAlt
+                            icon: FaGithub
                         }
                     }
                 }

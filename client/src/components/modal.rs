@@ -1,5 +1,5 @@
 use dioxus::{prelude::*, web::use_eval};
-use dioxus_heroicons::{Icon, solid::Shape};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons};
 use serde::{Serialize, Deserialize};
 use tp_models::podcast::Podcast;
 
@@ -42,7 +42,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                     class: "justify-center w-full h-full text-black dark:text-white hover:text-white dark:hover:text-black",
                     Icon {
                         class: "h-full w-full",
-                        icon: Shape::Play,
+                        icon: fa_solid_icons::FaPlay,
                     }
                 }
             }
@@ -74,10 +74,11 @@ pub fn PlayBox(cx: Scope) -> Element {
                 class: "justify-center w-full h-full text-black dark:text-white hover:text-white dark:hover:text-black",
                 onclick: move |_| {
                     status.write().display = true;
+                    eval_script("alert('1');");
                 },
                 Icon {
-                    class: "h-full w-full",
-                    icon: Shape::Play,
+                    class: "",
+                    icon: fa_solid_icons::FaPlay,
                 }
             }
         }
@@ -114,7 +115,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                                         class: "rounded-full inline-block px-1 py-1 text-black dark:text-white font-medium text-xs leading-tight hover:bg-gray-800 hover:text-white transition duration-150 ease-in-out",
                                         r#type: "button",
                                         Icon {
-                                            icon: Shape::Star
+                                            icon: fa_solid_icons::FaStar,
                                         }   
                                     }
                                     button {
@@ -124,7 +125,7 @@ pub fn PlayBox(cx: Scope) -> Element {
                                             status.write().display = false;
                                         },
                                         Icon {
-                                            icon: Shape::MinusCircle
+                                            icon: fa_solid_icons::FaCircleMinus,
                                         }   
                                     }
                                 }
@@ -150,7 +151,6 @@ pub fn PlayBox(cx: Scope) -> Element {
                             "oncontextmenu": "return false",
                             onpause: |e| {
                                 log::info!("{:?}", e);
-                                eval_script("alert(1)");
                             },
                             source {
                                 id: "audio-source",

@@ -34,7 +34,6 @@ impl BestPodcastsQuery for BestPodcasts {
         let client = Client::new(api_key);
         let res = client.fetch_best_podcasts(&json!({})).await.ok()?;
         let info = res.json().await.ok()?;
-        println!("{:?}", serde_json::from_value::<BestPodcasts>(info.clone()));
         Some(serde_json::from_value::<BestPodcasts>(info).ok()?)
     }
 }

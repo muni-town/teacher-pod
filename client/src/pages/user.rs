@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_heroicons::{Icon, solid::Shape};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons};
 use tp_models::account::Account;
 
 use crate::{
@@ -116,7 +116,7 @@ pub fn User(cx: Scope) -> Element {
                                                 div {
                                                     class: "bg-purple-600 w-6 h-6 flex items-center justify-center rounded-full -ml-3 text-white",
                                                     Icon {
-                                                        icon: Shape::Star
+                                                        icon: fa_solid_icons::FaStar
                                                     }
                                                 }
                                                 div {

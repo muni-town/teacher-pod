@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_heroicons::{solid::Shape, Icon};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons};
 
 use crate::{mode::{is_dark, mode}, data::account::current_user};
 
@@ -51,9 +51,9 @@ pub fn NavBar(cx: Scope) -> Element {
     };
 
     let mode_icon = if *use_read(&cx, crate::DARK_MODE) {
-        cx.render(rsx! { Icon { icon: Shape::Sun } })
+        cx.render(rsx! { Icon { icon: fa_solid_icons::FaSun } })
     } else {
-        cx.render(rsx! { Icon { icon: Shape::Moon } })
+        cx.render(rsx! { Icon { icon: fa_solid_icons::FaMoon } })
     };
 
     let set_mode = use_set(&cx, crate::DARK_MODE);

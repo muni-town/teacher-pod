@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_heroicons::{solid::Shape, Icon};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons::FaPlay};
 use tp_models::podcast::{BestPodcasts, Podcast};
 
 use crate::PLAYER_STATUS;
@@ -44,7 +44,7 @@ pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
                         }
                         p {
                             class: "text-sm text-gray-500",
-                            "{item.total_episodes}"
+                            "Author: {item.publisher}"
                         }
                     }
                 }
@@ -91,7 +91,7 @@ pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
                         Icon {
                             class: "float-left text-gray-600",
                             size: 24,
-                            icon: Shape::Play
+                            icon: FaPlay
                         }
                         strong {
                             "{item.title}"

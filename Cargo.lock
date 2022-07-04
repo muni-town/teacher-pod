@@ -669,10 +669,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "dioxus-heroicons"
-version = "0.1.4"
+name = "dioxus-free-icons"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e79acb735e2e1389e62cc472a88d0dde9761160ff104cbca48e016631185214"
+checksum = "f71ccef78539e9203e84ebbbf3ece5885a049e16ff63847b02f4e42c4259f64f"
 dependencies = [
  "dioxus",
 ]
@@ -3620,7 +3620,7 @@ dependencies = [
  "anyhow",
  "chrono",
  "dioxus",
- "dioxus-heroicons",
+ "dioxus-free-icons",
  "dioxus-toast",
  "gloo",
  "js-sys",

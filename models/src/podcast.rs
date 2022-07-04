@@ -9,6 +9,7 @@ pub struct Podcast {
     pub title: String,
     pub country: String,
     pub language: String,
+    pub publisher: String,
     pub thumbnail: String,
     pub is_claimed: bool,
     pub description: String,
