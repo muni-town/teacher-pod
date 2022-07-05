@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_free_icons::{icons::fa_solid_icons, icons::fa_regular_icons, Icon};
+use dioxus_free_icons::{icons::fa_regular_icons, icons::fa_solid_icons, Icon};
 use tp_models::{podcast::Podcast, ApiData};
 
 use crate::{
