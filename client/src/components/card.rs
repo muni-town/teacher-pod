@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_free_icons::{Icon, icons::fa_solid_icons::FaPlay};
+use dioxus_free_icons::Icon;
 use tp_models::podcast::{BestPodcasts, Podcast};
 
 use crate::PLAYER_STATUS;
@@ -55,7 +55,6 @@ pub fn RecommendList(cx: Scope<RecommendListProps>) -> Element {
 
 #[inline_props]
 pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
-
     let playbox = use_atom_ref(&cx, PLAYER_STATUS);
 
     let episodes = data.episodes.clone();
@@ -88,13 +87,8 @@ pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
                             playbox.write().current = current;
                             playbox.write().display = true;
                         },
-                        Icon {
-                            class: "float-left text-gray-600",
-                            size: 24,
-                            icon: FaPlay
-                        }
                         strong {
-                            "{item.title}"
+                            " {item.title}"
                         }
                         span {
                             class: "float-right text-gray-400",
