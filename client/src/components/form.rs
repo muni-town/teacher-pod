@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_free_icons::{Icon, icons::fa_brands_icons::FaSearchengin};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons};
 
 pub fn SearchBox(cx: Scope) -> Element {
     cx.render(rsx! {
@@ -10,7 +10,7 @@ pub fn SearchBox(cx: Scope) -> Element {
                 span {
                     class: "text-gray-500 sm:text-sm dark:text-white",
                     Icon {
-                        icon: FaSearchengin,
+                        icon: fa_solid_icons::FaMagnifyingGlass,
                         size: 15,
                     },
                 }
