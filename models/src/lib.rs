@@ -1,5 +1,6 @@
 pub mod account;
 pub mod podcast;
+pub mod data;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub struct ApiData<T: serde::Serialize> {

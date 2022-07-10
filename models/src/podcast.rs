@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Podcast {
     pub id: String,
@@ -34,7 +33,17 @@ pub struct Episode {
     pub image: String,
     pub title: String,
     pub thumbnail: String,
+    
+    #[serde(default)]
     pub description: String,
+
+    // for search info
+    #[serde(default)]
+    pub description_original: String,
+    #[serde(default)]
+    pub description_highlighted: String,
+    // ---------------
+
     pub audio_length_sec: u32,
 }
 
