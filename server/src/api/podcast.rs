@@ -21,6 +21,11 @@ async fn get_podcast(req: &mut Request, res: &mut Response) -> ApiResult {
 }
 
 #[fn_handler]
+async fn search_podcasts(req: &mut Request, res: &mut Response) -> ApiResult {
+    todo!()
+}
+
+#[fn_handler]
 async fn recommend_podcasts(res: &mut Response) -> ApiResult {
     let info = BestPodcasts::get_recommend().await.unwrap_or_default();
     res.success(info);

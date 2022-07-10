@@ -1,4 +1,4 @@
-use dioxus::{prelude::*, web::use_eval};
+use dioxus::prelude::*;
 use dioxus_free_icons::{Icon, icons::fa_solid_icons};
 use serde::{Serialize, Deserialize};
 use tp_models::podcast::Podcast;
@@ -58,7 +58,7 @@ pub fn PlayBox(cx: Scope) -> Element {
         "hidden"
     } else { "hidden sm:block" };
 
-    let eval_script = use_eval::<&str>(&cx);
+    // let eval_script = use_eval::<&str>(&cx);
 
     let simple_title = if info.title.len() > 38 {
         format!("{} ...", &info.title[0..38])

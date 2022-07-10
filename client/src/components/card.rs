@@ -1,11 +1,13 @@
 use dioxus::prelude::*;
-use dioxus_free_icons::Icon;
 use tp_models::podcast::{BestPodcasts, Podcast};
+use dioxus::web::use_eval;
 
 use crate::PLAYER_STATUS;
 
 #[inline_props]
 pub fn Card<'a>(cx: Scope<'a>, children: Element<'a>) -> Element {
+    let h = Hello { a: 1, b:2, c:3 };
+    // let a = 1;1 
     cx.render(rsx! {
         div {
             class: "bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg",
@@ -15,6 +17,12 @@ pub fn Card<'a>(cx: Scope<'a>, children: Element<'a>) -> Element {
             }
         }
     })
+}
+
+struct Hello {
+    a: usize,
+    b: usize,
+    c: usize,
 }
 
 #[derive(Props, PartialEq)]
