@@ -7,7 +7,7 @@ mod task;
 
 mod listennotes;
 
-use api::{account::AccountApi, podcast::PodcstApi};
+use api::{account::AccountApi, podcast::PodcstApi, search::SearchApi};
 use db::{get_postgres, init_pg_pool};
 use salvo::{
     extra::cors::CorsHandler,
@@ -62,6 +62,7 @@ async fn main() {
     let router = Router::with_hoop(cors_handler)
         .append(AccountApi::build())
         .append(PodcstApi::build())
+        .append(SearchApi::build())
         .push(Router::with_path("<*path>").options(all_pass));
 
     Server::new(TcpListener::bind("127.0.0.1:3000"))

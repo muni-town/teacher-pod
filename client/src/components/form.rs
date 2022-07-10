@@ -1,7 +1,23 @@
-use dioxus::prelude::*;
-use dioxus_free_icons::{Icon, icons::fa_solid_icons};
+use std::sync::Arc;
+
+use dioxus::{
+    prelude::{dioxus_elements::input_data::keyboard_types::Code, *},
+    router::RouterCore,
+};
+use dioxus_free_icons::{icons::fa_solid_icons, Icon};
 
 pub fn SearchBox(cx: Scope) -> Element {
+    let roc = cx.use_hook(|_| cx.consume_context::<Arc<RouterCore>>());
+    let route = use_route(&cx);
+    let text = use_state(&cx, move || {
+        if route.url().path() == "/search" {
+            if let Some(e) = route.query_param("query") {
+                return e.to_string();
+            }
+        }
+        String::new()
+    });
+
     cx.render(rsx! {
         div {
             class: "mt-1 relative rounded-md shadow-sm",
@@ -18,7 +34,15 @@ pub fn SearchBox(cx: Scope) -> Element {
             input {
                 class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md dark:bg-gray-600 dark:text-white",
                 r#type: "text",
-                name: "search",
+                value: "{text}",
+                oninput: move |evt| text.set(evt.value.clone()),
+                onkeydown: move |evt| {
+                    if evt.code() == Code::Enter && !text.is_empty() {
+                        if let Some(roc) = roc {
+                            roc.push_route(&format!("/search?query={}", text), None, None);
+                        }
+                    }
+                },
             }
         }
     })

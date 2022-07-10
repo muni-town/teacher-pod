@@ -31,13 +31,20 @@ pub struct Episode {
     pub link: String,
     pub audio: String,
     pub image: String,
+    
+    #[serde(default)]
     pub title: String,
+
     pub thumbnail: String,
     
     #[serde(default)]
     pub description: String,
 
     // for search info
+    #[serde(default)]
+    pub title_original: String,
+    #[serde(default)]
+    pub title_highlighted: String,
     #[serde(default)]
     pub description_original: String,
     #[serde(default)]

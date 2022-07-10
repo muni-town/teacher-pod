@@ -9,6 +9,7 @@ use crate::{
 
 pub mod account;
 pub mod podcast;
+pub mod search;
 
 #[fn_handler]
 pub async fn block_unlogin(
