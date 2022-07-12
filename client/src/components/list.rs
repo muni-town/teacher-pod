@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
-use tp_models::account::Account;
+use tp_models::{account::Account, data::SearchInfo};
+
+use super::card::Card;
 
 
 #[inline_props]
@@ -37,6 +39,26 @@ pub fn SimpleUserList(cx: Scope, data: Vec<Account>) -> Element {
                     }
                 }
             })
+        }
+    })
+}
+
+#[inline_props]
+pub fn SearchResultList(cx: Scope, data: SearchInfo) -> Element {
+
+    let list_display = data.results.iter().map(|v| {
+        let title = v.title_original.clone();
+        rsx! {
+            Card {
+                "{title}"
+            }
+        }
+    });
+
+    cx.render(rsx! {
+        div {
+            class: "flex flex-col space-y-4",
+            list_display
         }
     })
 }
