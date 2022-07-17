@@ -82,7 +82,7 @@ pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
                         key: "{data.id}@{index}",
                         onclick: move |_| {
                             let current = index;
-                            playbox.write().playlist = Some(data.clone());
+                            playbox.write().playlist = Some(data.clone().episodes);
                             playbox.write().current = current;
                             playbox.write().display = true;
                         },
@@ -91,7 +91,7 @@ pub fn EpisodeList(cx: Scope, data: Podcast) -> Element {
                         }
                         span {
                             class: "float-right text-gray-400",
-                            "{min:.2} minss"
+                            "{min:.2} min"
                         }
                     }
                 }

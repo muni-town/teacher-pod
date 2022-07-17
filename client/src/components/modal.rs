@@ -1,13 +1,13 @@
 use dioxus::prelude::*;
 use dioxus_free_icons::{Icon, icons::fa_solid_icons};
 use serde::{Serialize, Deserialize};
-use tp_models::podcast::Podcast;
+use tp_models::podcast::Episode;
 
 use crate::PLAYER_STATUS;
 
 #[derive(Serialize, Deserialize)]
 pub struct PlayBoxInfo {
-    pub playlist: Option<Podcast>,
+    pub playlist: Option<Vec<Episode>>,
     pub current: usize,
     pub display: bool,
     pub pause: bool,
@@ -22,7 +22,7 @@ pub fn PlayBox(cx: Scope) -> Element {
     let playlist = if status.read().playlist.is_none() {
         vec![]
     } else {
-        status.read().playlist.clone().unwrap().episodes
+        status.read().playlist.clone().unwrap()
     };
 
     // use this check to reload the play box source
@@ -60,10 +60,15 @@ pub fn PlayBox(cx: Scope) -> Element {
 
     // let eval_script = use_eval::<&str>(&cx);
 
-    let simple_title = if info.title.len() > 38 {
-        format!("{} ...", &info.title[0..38])
+    let full_title = if info.title.is_empty() {
+        &info.title_original
     } else {
-        info.title.to_string()
+        &info.title
+    };
+    let simple_title = if full_title.len() > 32 {
+        format!("{} ...", &full_title[0..32])
+    } else {
+        full_title.to_string()
     };
 
     cx.render(rsx! {

@@ -1,6 +1,8 @@
 use dioxus::prelude::*;
 use tp_models::{account::Account, data::SearchInfo};
 
+use crate::PLAYER_STATUS;
+
 #[inline_props]
 pub fn SimpleUserList(cx: Scope, data: Vec<Account>) -> Element {
     cx.render(rsx! {
@@ -42,46 +44,47 @@ pub fn SimpleUserList(cx: Scope, data: Vec<Account>) -> Element {
 
 #[inline_props]
 pub fn SearchResultList(cx: Scope, data: SearchInfo) -> Element {
-
+    let playbox = use_atom_ref(&cx, PLAYER_STATUS);
     let list_display = data.results.iter().map(|v| {
         let title = v.title_original.clone();
+        let min: f32 = (v.audio_length_sec as f32) / 60_f32;
         rsx! {
-                div {
-                    class: "rounded-xl border p-5 shadow-md w-9/12 bg-white",
+            div {
+                class: "flex items-center justify-center",
+                a {
+                    class: "rounded-xl border p-5 shadow-md w-9/12 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600",
+                    href: "javascript:;",
+                    onclick: move |_| {
+                        playbox.write().playlist = Some(vec![v.clone()]);
+                        playbox.write().current = 0;
+                        playbox.write().display = true;
+                    },
                     div {
                         class: "flex w-full items-center justify-between border-b pb-3",
                         div {
                             class: "flex items-center space-x-3",
-                            div {
-                                class: "h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]",
-                                
+                            img {
+                                class: "h-8 w-8",
+                                src: "{v.image}"
                             }
                             div {
-                                class: "text-lg font-bold text-slate-700",
-                                "Joe Smith"
+                                class: "text-lg font-bold text-slate-700 dark:text-slate-100",
+                                "{title}"
                             }
                         }
                         div {
                             class: "flex items-center space-x-8",
-                            button {
-                                class: "rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold",
-                                "Category"
-                            }
                             div {
-                                class: "text-xs text-neutral-500",
-                                "2 hours ago"
+                                class: "text-xs text-neutral-500 dark:text-white",
+                                "{min:.2} min"
                             }
                         }
                     }
                     div {
                         class: "mt-4 mb-6",
                         div {
-                            class: "mb-3 text-xl font-bold",
-                            "Nulla sed leo tempus, feugiat velit vel, rhoncus neque?"
-                        }
-                        div {
-                            class: "text-sm text-neutral-600",
-                            "Aliquam a tristique sapien, nec bibendum urna. Maecenas convallis dignissim turpis, non suscipit mauris interdum at. Morbi sed gravida nisl, a pharetra nulla. Etiam tincidunt turpis leo, ut mollis ipsum consectetur quis. Etiam faucibus est risus, ac condimentum mauris consequat nec. Curabitur eget feugiat massa"
+                            class: "text-sm text-neutral-600 dark:text-white",
+                            dangerous_inner_html: "{v.description_original}",
                         }
                     }
                     div {
@@ -94,6 +97,7 @@ pub fn SearchResultList(cx: Scope, data: SearchInfo) -> Element {
                     }
                 }
             }
+        }
     });
 
     cx.render(rsx! {
