@@ -60,6 +60,33 @@ async fn login(req: &mut Request, resp: &mut Response) -> ApiResult {
     Ok(())
 }
 
+#[fn_handler]
+async fn register(req: &mut Request, resp: &mut Response) -> ApiResult {
+    let username = req.query::<String>("username");
+    let email = req.query::<String>("email");
+    let password = req.query::<String>("password");
+    if username.is_none() {
+        return Err(Error::QueryNotFound("username".into()));
+    }
+    if email.is_none() {
+        return Err(Error::QueryNotFound("email".into()));
+    }
+    if password.is_none() {
+        return Err(Error::QueryNotFound("password".into()));
+    }
+    let username = username.unwrap();
+    let email = email.unwrap();
+    let password = password.unwrap();
+
+    // if email is exists, can't register
+    if Account::email_exists(&email).await {
+        return Err(Error::DataExists);
+    }
+    let _ = Account::insert_new_user(&username, &email, &password).await?;
+    resp.success("OK");
+    Ok(())
+}
+
 pub struct AccountApi;
 impl Routers for AccountApi {
     fn build() -> Vec<salvo::Router> {

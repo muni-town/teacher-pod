@@ -11,6 +11,7 @@ pub enum Error {
     DataNotFound,
     AuthorizationFailed(String),
     Unauthorized,
+    DataExists,
 }
 
 pub type ApiResult = Result<(), Error>;
@@ -33,6 +34,9 @@ impl Writer for Error {
             }
             Error::Unauthorized => {
                 ("unauthorized".into(), StatusCode::UNAUTHORIZED)
+            }
+            Error::DataExists => {
+                ("data exists".into(), StatusCode::BAD_REQUEST)
             }
         };
         res.set_status_error(StatusError::from_code(info.1).unwrap());

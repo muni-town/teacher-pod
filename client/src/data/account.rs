@@ -1,4 +1,5 @@
-use serde::{Serialize, Deserialize};
+use dioxus::prelude::dioxus_elements::em;
+use serde::{Deserialize, Serialize};
 use tp_models::{account::Account, ApiData};
 
 use crate::hooks::use_storage;
@@ -47,5 +48,14 @@ pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {
     let storage = use_storage()?;
     storage.set_item("auth", &data.data.token).unwrap();
 
-    return Ok(());
+    Ok(())
+}
+
+pub async fn register(email: &str, username: &str, password: &str) -> anyhow::Result<()> {
+    let path = format!(
+        "/register?email={}&username={}&password={}",
+        email, username, password
+    );
+    let resp = get(&path).send().await?;
+    Ok(())
 }

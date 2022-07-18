@@ -8,6 +8,14 @@ pub use tp_models::account::{Account, Auth};
 pub trait AccountFn {
     async fn query_from_id(id: i32) -> Result<Account, sqlx::Error>;
     async fn query_from_email(email: &str) -> Result<Account, sqlx::Error>;
+
+    async fn email_exists(email: &str) -> bool;
+    async fn insert_new_user(
+        username: &str,
+        email: &str,
+        password: &str,
+    ) -> Result<(), sqlx::Error>;
+
     fn generate_password(pwd: String) -> (String, String);
     fn check_password(input: &str, pwd: &str, salt: &str) -> bool;
 }
@@ -28,6 +36,39 @@ impl AccountFn for Account {
             .bind(email)
             .fetch_one(get_postgres())
             .await?)
+    }
+
+    async fn email_exists(email: &str) -> bool {
+        let r = sqlx::query("select count(id) from account where email = $1;")
+            .bind(email)
+            .fetch_all(get_postgres())
+            .await;
+        if let Ok(r) = r {
+            return r.len() != 0;
+        }
+        false
+    }
+
+    async fn insert_new_user(
+        username: &str,
+        email: &str,
+        password: &str,
+    ) -> Result<(), sqlx::Error> {
+        let pool = get_postgres();
+
+        let (password, salt) = Self::generate_password(password.into());
+
+        let _ = sqlx::query(
+            "insert into account (email, username, password, salt) values ($1, $2, $3);",
+        )
+        .bind(email)
+        .bind(username)
+        .bind(password)
+        .bind(salt)
+        .execute(pool)
+        .await?;
+
+        Ok(())
     }
 
     fn generate_password(pwd: String) -> (String, String) {
