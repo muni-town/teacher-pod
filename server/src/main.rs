@@ -65,7 +65,8 @@ async fn main() {
         .append(SearchApi::build())
         .push(Router::with_path("<*path>").options(all_pass));
 
-    Server::new(TcpListener::bind("127.0.0.1:3000"))
+    let server_addr = std::env::var("SERVER_ADDR").unwrap();
+    Server::new(TcpListener::bind(&server_addr))
         .serve(router)
         .await;
 }
