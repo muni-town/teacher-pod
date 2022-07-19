@@ -21,6 +21,11 @@ pub trait Routers {
 }
 
 #[fn_handler]
+async fn hello_world(res: &mut Response) {
+    res.render("Hello World!");
+}
+
+#[fn_handler]
 async fn all_pass(res: &mut Response) {
     res.set_status_code(StatusCode::OK);
 }
@@ -60,6 +65,7 @@ async fn main() {
         .build();
 
     let router = Router::with_hoop(cors_handler)
+        .push(Router::with_path("/").get(hello_world))
         .append(AccountApi::build())
         .append(PodcstApi::build())
         .append(SearchApi::build())
