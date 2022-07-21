@@ -20,7 +20,7 @@ pub async fn root_path() -> &'static str {
             return "http://146.190.40.243:3000/";
         } else {
             let res = res.unwrap();
-            if res.is_empty() {
+            if res.is_empty() || resp.status() != 200 {
                 return "http://146.190.40.243:3000/";
             }
             return Box::leak(Box::new(res));
