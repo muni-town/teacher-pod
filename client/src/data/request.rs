@@ -15,11 +15,15 @@ pub async fn get(url: &str) -> Request {
 pub async fn root_path() -> &'static str {
     let resp = Request::get("/root.txt").send().await;
     if let Ok(resp) = resp {
-        let res = Box::leak(Box::new(resp.text().await.unwrap()));
-        if res.is_empty() {
+        let res = resp.text().await;
+        if res.is_err() {
             return "http://146.190.40.243:3000/";
         } else {
-            return res;
+            let res = res.unwrap();
+            if res.is_empty() {
+                return "http://146.190.40.243:3000/";
+            }
+            return Box::leak(Box::new(res));
         }
     }
     "http://146.190.40.243:3000/"
