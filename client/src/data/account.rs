@@ -1,4 +1,3 @@
-use dioxus::prelude::dioxus_elements::em;
 use serde::{Deserialize, Serialize};
 use tp_models::{account::Account, ApiData};
 
@@ -12,7 +11,7 @@ pub fn token() -> String {
 }
 
 pub async fn current_user() -> Option<Account> {
-    let resp = get("/self")
+    let resp = get("/self").await
         .header("Authorization", &format!("Bearer {}", token()))
         .send()
         .await;
@@ -34,7 +33,7 @@ struct AuthInfo {
 
 pub async fn login(email: &str, password: &str) -> anyhow::Result<()> {
     let path = format!("/login?email={email}&password={password}");
-    let resp = get(&path).send().await?;
+    let resp = get(&path).await.send().await?;
 
     let data = resp.json::<ApiData<AuthInfo>>().await?;
 
@@ -56,6 +55,6 @@ pub async fn register(email: &str, username: &str, password: &str) -> anyhow::Re
         "/register?email={}&username={}&password={}",
         email, username, password
     );
-    let resp = get(&path).send().await?;
+    let resp = get(&path).await.send().await?;
     Ok(())
 }

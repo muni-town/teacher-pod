@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 use once_cell::sync::OnceCell;
-use sqlx::{PgPool, postgres::PgPoolOptions};
+use sqlx::{postgres::PgPoolOptions, PgPool};
 
 static POSTGRES: OnceCell<PgPool> = OnceCell::new();
 

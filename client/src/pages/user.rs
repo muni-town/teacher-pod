@@ -1,10 +1,10 @@
 use dioxus::prelude::*;
-use dioxus_free_icons::{Icon, icons::fa_solid_icons};
+use dioxus_free_icons::{icons::fa_solid_icons, Icon};
 use tp_models::account::Account;
 
 use crate::{
     components::card::Card,
-    data::{request, account::current_user},
+    data::{account::current_user, request},
 };
 
 pub fn User(cx: Scope) -> Element {
@@ -16,13 +16,13 @@ pub fn User(cx: Scope) -> Element {
     let user_info: &UseFuture<Option<Account>> = use_future(&cx, (), |_| {
         let current_user_page = current_user_page.clone();
         async move {
-        
             if let Some(u) = current_user().await {
                 current_user_page.set(true);
                 return Some(u);
             }
-    
+
             let resp = request::get(&format!("/users/{}", userid))
+                .await
                 .send()
                 .await
                 .ok()?;

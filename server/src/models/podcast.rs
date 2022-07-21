@@ -1,7 +1,7 @@
 use podcast_api::Client;
 use salvo::async_trait;
 use serde_json::json;
-use tp_models::podcast::{Podcast, BestPodcasts};
+use tp_models::podcast::{BestPodcasts, Podcast};
 
 use crate::listennotes;
 

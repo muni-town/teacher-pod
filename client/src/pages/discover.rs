@@ -14,7 +14,7 @@ struct RequestData {
 pub fn Discover(cx: Scope) -> Element {
     let request_data: &UseFuture<RequestData> = use_future(&cx, (), |_| {
         async move {
-            let res = request::get("/podcasts/").send().await;
+            let res = request::get("/podcasts/").await.send().await;
             let res = if let Ok(resp) = res {
                 resp
             } else {

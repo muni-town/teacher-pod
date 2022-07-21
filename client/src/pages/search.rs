@@ -22,7 +22,7 @@ pub fn SearchResult(cx: Scope) -> Element {
 
     let query_str = query.clone();
     let request_data = use_future(&cx, (), move |_| async move {
-        let res = request::get(&format!("/search/{}", query_str)).send().await;
+        let res = request::get(&format!("/search/{}", query_str)).await.send().await;
         let res = if let Ok(resp) = res {
             resp
         } else {

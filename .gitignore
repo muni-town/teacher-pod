@@ -1,4 +1,5 @@
 /target/
 /client/dist/
+/client/public/root.txt
 
 .DS_Store

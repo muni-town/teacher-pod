@@ -1,9 +1,9 @@
 use salvo::prelude::*;
 use tp_models::data::SearchInfo;
 
-use crate::Routers;
 use crate::error::{ApiResult, Error};
 use crate::models::data::SearchInfoQuery;
+use crate::Routers;
 
 use super::JsonApi;
 
@@ -21,8 +21,6 @@ async fn search_episode(req: &mut Request, res: &mut Response) -> ApiResult {
 pub struct SearchApi;
 impl Routers for SearchApi {
     fn build() -> Vec<salvo::Router> {
-        vec![
-            Router::with_path("search/<query>").get(search_episode),
-        ]
+        vec![Router::with_path("search/<query>").get(search_episode)]
     }
 }

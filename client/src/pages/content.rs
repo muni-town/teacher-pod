@@ -19,6 +19,7 @@ pub fn Content(cx: Scope) -> Element {
 
     let info: &UseFuture<Option<ContentInfo>> = use_future(&cx, (), |_| async move {
         let res = request::get(&format!("/podcasts/{}", id))
+            .await
             .send()
             .await
             .ok()?;
