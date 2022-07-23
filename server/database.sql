@@ -19,7 +19,7 @@ create table if not exists account (
 );
 
 -- test data
-insert into account (email, username, password, salt) values ('mrxzx@qq.com', 'mrxiaozhuox', '22b48f7a98d9a8d684c7000dde01ef6e', 'ccIvwLYPegqy');
+insert into account (email, username, password, salt, avatar) values ('mrxzx@qq.com', 'mrxiaozhuox', '22b48f7a98d9a8d684c7000dde01ef6e', 'ccIvwLYPegqy', 'https://avatars.githubusercontent.com/u/41265098?v=4');
 
 create table if not exists config (
     id              serial          not null    primary key,
