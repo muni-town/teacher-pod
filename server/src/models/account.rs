@@ -4,6 +4,8 @@ use crate::db::get_postgres;
 
 pub use tp_models::account::{Account, Auth};
 
+use super::CountQuery;
+
 #[async_trait]
 pub trait AccountFn {
     async fn query_from_id(id: i32) -> Result<Account, sqlx::Error>;
@@ -39,12 +41,12 @@ impl AccountFn for Account {
     }
 
     async fn email_exists(email: &str) -> bool {
-        let r = sqlx::query("select count(id) from account where email = $1;")
+        let r = sqlx::query_as::<_, CountQuery>("select count(id) from account where email = $1;")
             .bind(email)
-            .fetch_all(get_postgres())
+            .fetch_one(get_postgres())
             .await;
         if let Ok(r) = r {
-            return r.len() != 0;
+            return r.count != 0;
         }
         false
     }
@@ -59,7 +61,7 @@ impl AccountFn for Account {
         let (password, salt) = Self::generate_password(password.into());
 
         let _ = sqlx::query(
-            "insert into account (email, username, password, salt) values ($1, $2, $3);",
+            "insert into account (email, username, password, salt) values ($1, $2, $3, $4);",
         )
         .bind(email)
         .bind(username)

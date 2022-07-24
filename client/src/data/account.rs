@@ -56,5 +56,8 @@ pub async fn register(email: &str, username: &str, password: &str) -> anyhow::Re
         email, username, password
     );
     let resp = get(&path).await.send().await?;
+    if resp.status() != 200 {
+        return Err(anyhow::anyhow!("Register Failed"));
+    }
     Ok(())
 }

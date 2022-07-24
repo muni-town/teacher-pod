@@ -92,6 +92,7 @@ impl Routers for AccountApi {
     fn build() -> Vec<salvo::Router> {
         vec![
             Router::new().path("/login").handle(login),
+            Router::new().path("/register").handle(register),
             Router::new()
                 .path("self")
                 .hoop(block_unlogin)

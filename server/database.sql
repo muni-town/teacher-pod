@@ -14,7 +14,7 @@ create table if not exists account (
     password        varchar(255)    not null,
     salt            varchar(20)     not null,
     introduction    text            default '',
-    avatar          varchar(255)    default '',
+    avatar          varchar(255)    default '/assets/image/default_avatar.png',
     role            int             default 0
 );
 
