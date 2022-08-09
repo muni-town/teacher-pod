@@ -81,7 +81,7 @@ pub fn NavBar(cx: Scope) -> Element {
                             img {
                                 class: "block h-8 w-auto",
                                 alt: "Workflow",
-                                src: "/assets/image/logo.png",
+                                src: "/assets/image/logo.svg",
                             }
                         }
                         div {
